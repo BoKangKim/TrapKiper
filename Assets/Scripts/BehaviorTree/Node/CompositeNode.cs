@@ -1,14 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public abstract class CompositeNode : INode
+namespace BehaviorTree 
 {
-    private Stack<INode> nodes;
-    public CompositeNode(params INode[] nodes)
+    public abstract class CompositeNode : ICompositeNode
     {
-        this.nodes = new Stack<INode>(nodes);
-    }
+        public List<INode> ChildNodes { get; protected set; }
 
-    public abstract bool Run();
+        public CompositeNode(params INode[] nodes) => ChildNodes = new List<INode>(nodes);
+
+        public abstract bool Run();
+    }
 }
+
