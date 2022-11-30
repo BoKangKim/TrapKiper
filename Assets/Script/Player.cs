@@ -12,10 +12,8 @@ public class Player : BasePlayer
     {
         StartImplemented();
     }
-    private void Update()
-    {
-        UpdateImplemented();
-    }
+
+    
 
     protected override void Init()
     {

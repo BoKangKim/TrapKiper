@@ -1,20 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
+using static BehaviorTree.BehaviorTreeMan;
 
-[RequireComponent(typeof(Animator),typeof(NavMeshAgent))]
-public class Monster : MonoBehaviour
+[RequireComponent(typeof(Animator), typeof(NavMeshAgent))]
+public abstract class Monster : MonoBehaviour
 {
-    private Animator monsterAni = null;
-    private NavMeshAgent agent = null;
-    private GameObject dest = null;
+    protected Animator monsterAni = null;
+    protected Player player = null;
+    protected NavMeshAgent agent = null;
+    protected BehaviorTree.INode root = null;
 
     private void Awake()
     {
-        monsterAni = GetComponent<Animator>();
-        dest = GameObject.FindWithTag("Destination");
-        agent.SetDestination(dest.transform.position);
+        Init();
+        RootNodeInit();
+
+        if(root == null)
+        {
+            Debug.LogError("Root Node Is Null, Define Root Node");
+        }
     }
+
+    protected virtual void Init()
+    {
+        player = FindObjectOfType<Player>();
+        monsterAni = GetComponent<Animator>();
+        agent = GetComponent<NavMeshAgent>();
+    }
+
+    protected abstract void RootNodeInit();
 
 }

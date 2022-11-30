@@ -52,25 +52,35 @@ public abstract class BasePlayer : MonoBehaviour
     Vector3 moveDir     = Vector3.zero;
 
     //Check Value
-    bool isRun      = false;
-    bool jumpCheck  = false;
-    bool skillCheck = false;
+    private bool isRun      = false;
+    private bool jumpCheck  = false;
+    private bool skillCheck = false;
 
     //axis Value
-    float mouseX = 0;
-    float mouseY = 0;
-    float axisX  = 0;
-    float axisZ  = 0;
+    private float mouseX = 0;
+    private float mouseY = 0;
+    private float axisX  = 0;
+    private float axisZ  = 0;
 
     //player animation learp Value
-    float fixedAxisZ = 0f;
-    float fixedAxisX = 0f;
+    private float fixedAxisZ = 0f;
+    private float fixedAxisX = 0f;
 
     //Current Animation State
-    STATE curState;
+    private STATE curState;
     //Current Coroutine
-    Coroutine stateCoroutine;
-    Coroutine moveCoroutine;
+    private Coroutine stateCoroutine;
+    private Coroutine moveCoroutine;
+
+    private void Update()
+    {
+        UpdateImplemented();
+    }
+
+    private void FixedUpdate()
+    {
+        PlyaerMove();
+    }
 
     //Awake&&Start method
     #region Awake&&Start method
@@ -79,7 +89,7 @@ public abstract class BasePlayer : MonoBehaviour
         playerAnimator   = GetComponent<Animator>();
         playerTr         = GetComponent<Transform>();
         playerRb         = GetComponent<Rigidbody>();
-        EventReciver     = GetComponent<AnimationEventReciver>();
+        AnimationEventReciver EventReciver     = GetComponent<AnimationEventReciver>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
@@ -168,20 +178,24 @@ public abstract class BasePlayer : MonoBehaviour
         playerTr.rotation = Quaternion.Euler(0, mouseX, 0);
     }
     #endregion
+
     //delgate method
     #region delgate method
     void BasicAttack()
     {
         Instantiate(basicAttackPrefab, attackStartZone.position, transform.rotation);
     }
+
     void SkillAttack()
     {
        StartCoroutine(SKILL_STATE());
     }
+
     void JumpStart()
     {
         playerRb.AddForce(Vector3.up * 7f, ForceMode.VelocityChange);
     }
+
     void JumpEnd()
     {
         ChageState(STATE.MOVE_STATE);
@@ -190,11 +204,8 @@ public abstract class BasePlayer : MonoBehaviour
         playerSpeed=originSpeed;
     }
     #endregion
+   
 
-    private void FixedUpdate()
-    {
-        PlyaerMove();
-    }
     void PlyaerMove()
     {
         lookForward = new Vector3(cameraArmTr.transform.forward.x, 0, cameraArmTr.transform.forward.z);
@@ -206,6 +217,7 @@ public abstract class BasePlayer : MonoBehaviour
             playerRb.MovePosition(this.gameObject.transform.position + moveDir.normalized * playerSpeed * Time.fixedDeltaTime);
         }
     }
+
     //Coroutine state machine
     void ChageState(STATE newState)
     {
@@ -289,6 +301,7 @@ public abstract class BasePlayer : MonoBehaviour
             yield return null;
         }
     }
+
     public virtual IEnumerator SKILL_STATE()
     {
         GameObject skill = Instantiate(basicAttackPrefab, attackStartZone.position, transform.rotation);
@@ -296,6 +309,7 @@ public abstract class BasePlayer : MonoBehaviour
         skillCheck = false;
         yield return null;
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (jumpCheck && collision.contacts[0].normal.y > 0.7f)
