@@ -191,6 +191,21 @@ public abstract class BasePlayer : MonoBehaviour
     }
     #endregion
 
+    private void FixedUpdate()
+    {
+        PlyaerMove();
+    }
+    void PlyaerMove()
+    {
+        lookForward = new Vector3(cameraArmTr.transform.forward.x, 0, cameraArmTr.transform.forward.z);
+        lookRight = new Vector3(cameraArmTr.transform.right.x, 0, cameraArmTr.transform.right.z);
+
+        if (axisX != 0 || axisZ != 0)
+        {
+            moveDir = lookForward * axisZ + lookRight * axisX;
+            playerRb.MovePosition(this.gameObject.transform.position + moveDir.normalized * playerSpeed * Time.fixedDeltaTime);
+        }
+    }
     //Coroutine state machine
     void ChageState(STATE newState)
     {
@@ -221,7 +236,7 @@ public abstract class BasePlayer : MonoBehaviour
 
             if (isRun && axisZ >= 0)
             {
-                playerSpeed = Mathf.Lerp(playerSpeed, runSpeed, Time.deltaTime*2);
+                playerSpeed = Mathf.Lerp(playerSpeed, runSpeed, Time.fixedDeltaTime * 2);
                 speed = Mathf.Lerp(speed, 1, Time.deltaTime);
 
                 playerAnimator.SetBool("isMove", false);
@@ -230,7 +245,7 @@ public abstract class BasePlayer : MonoBehaviour
             }
             else
             {
-                playerSpeed = Mathf.Lerp(playerSpeed, originSpeed, Time.deltaTime*2);
+                playerSpeed = Mathf.Lerp(playerSpeed, originSpeed, Time.fixedDeltaTime * 2);
                 speed = Mathf.Lerp(speed, 0, Time.deltaTime);
 
                 playerAnimator.SetBool("isMove", true);
@@ -243,14 +258,6 @@ public abstract class BasePlayer : MonoBehaviour
             else
                 playerSpeed = originSpeed;
 
-            lookForward = new Vector3(cameraArmTr.transform.forward.x, 0, cameraArmTr.transform.forward.z);
-            lookRight = new Vector3(cameraArmTr.transform.right.x, 0, cameraArmTr.transform.right.z);
-
-            if (axisX != 0 || axisZ != 0)
-            {
-                moveDir = lookForward * axisZ + lookRight * axisX;
-                playerRb.MovePosition(this.gameObject.transform.position+moveDir.normalized * playerSpeed * Time.deltaTime);
-            }
             yield return null;
         }
     }
@@ -266,27 +273,19 @@ public abstract class BasePlayer : MonoBehaviour
 
         while (true)
         {
-            fixedAxisZ = Mathf.Lerp(fixedAxisZ, axisZ, Time.deltaTime * 6);
+            fixedAxisZ = Mathf.Lerp(fixedAxisZ, axisZ, Time.fixedDeltaTime * 6);
             playerAnimator.SetFloat("axisZ", fixedAxisZ);
-            fixedAxisX = Mathf.Lerp(fixedAxisX, axisX, Time.deltaTime * 6);
+            fixedAxisX = Mathf.Lerp(fixedAxisX, axisX, Time.fixedDeltaTime * 6);
             playerAnimator.SetFloat("axisX", fixedAxisX);
 
             if (isRun)
             {
-                playerSpeed = Mathf.Lerp(playerSpeed, JumpRunSpeed, Time.deltaTime * 2);
+                playerSpeed = Mathf.Lerp(playerSpeed, JumpRunSpeed, Time.fixedDeltaTime * 2);
                 speed = Mathf.Lerp(speed, 0, Time.deltaTime);
 
                 playerAnimator.SetFloat("speed", speed);
             }
-           
-            lookForward = new Vector3(cameraArmTr.transform.forward.x, 0, cameraArmTr.transform.forward.z);
-            lookRight = new Vector3(cameraArmTr.transform.right.x, 0, cameraArmTr.transform.right.z);
 
-            if (axisX != 0 || axisZ != 0)
-            {
-                moveDir = lookForward * axisZ + lookRight * axisX;
-                playerRb.MovePosition(this.gameObject.transform.position + moveDir.normalized * playerSpeed * Time.deltaTime);
-            }
             yield return null;
         }
     }

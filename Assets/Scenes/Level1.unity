@@ -380,11 +380,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
       propertyPath: runSpeed
-      value: 35
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
       propertyPath: jumpSpeed
-      value: 20
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
+      propertyPath: stopSpeed
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
       propertyPath: cameraArmTr
@@ -392,11 +396,11 @@ PrefabInstance:
       objectReference: {fileID: 1130404510}
     - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
       propertyPath: playerSpeed
-      value: 25
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
       propertyPath: JumpRunSpeed
-      value: 30
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
