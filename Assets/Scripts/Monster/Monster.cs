@@ -10,6 +10,8 @@ public abstract class Monster : MonoBehaviour
     protected Player player = null;
     protected NavMeshAgent agent = null;
     protected BehaviorTree.INode root = null;
+    protected bool isAttack = false;
+    public float AttackArange { get; protected set; }
 
     private void Awake()
     {
@@ -20,6 +22,12 @@ public abstract class Monster : MonoBehaviour
         {
             Debug.LogError("Root Node Is Null, Define Root Node");
         }
+    }
+    
+
+    private void Update()
+    {
+        root.Run();
     }
 
     protected virtual void Init()

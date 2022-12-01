@@ -96,10 +96,10 @@ public abstract class BasePlayer : MonoBehaviour
     }
     protected virtual void StartImplemented()
     {
-        EventReciver.callJumpEvent = JumpStart;
-        EventReciver.callJunpEndEvent = JumpEnd;
-        EventReciver.callAttackEvent = BasicAttack;
-        EventReciver.callSkillEvent  = SkillAttack;
+        //EventReciver.callJumpEvent = JumpStart;
+        //EventReciver.callJunpEndEvent = JumpEnd;
+        //EventReciver.callAttackEvent = BasicAttack;
+        //EventReciver.callSkillEvent  = SkillAttack;
 
         originSpeed = playerSpeed;
         ChageState(STATE.MOVE_STATE);
