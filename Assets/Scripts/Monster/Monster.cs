@@ -7,7 +7,7 @@ using static BehaviorTree.BehaviorTreeMan;
 public abstract class Monster : MonoBehaviour
 {
     protected Animator monsterAni = null;
-    protected Player player = null;
+    protected Wizard player = null;
     protected NavMeshAgent agent = null;
     protected BehaviorTree.INode root = null;
     protected bool isAttack = false;
@@ -32,7 +32,7 @@ public abstract class Monster : MonoBehaviour
 
     protected virtual void Init()
     {
-        player = FindObjectOfType<Player>();
+        player = FindObjectOfType<Wizard>();
         monsterAni = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
     }

@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 448330874}
   - component: {fileID: 448330876}
   - component: {fileID: 448330875}
+  - component: {fileID: 448330877}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -207,6 +208,26 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &448330877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448330873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bda86ba17a6e0db4dbf3375a1d48692d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraArmTr: {fileID: 1130404510}
+  playerTr: {fileID: 871498173}
+  mouseX: 0
+--- !u!4 &871498173 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8452664678573959834, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
+  m_PrefabInstance: {fileID: 1780323094}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1098329406
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,6 +405,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
       propertyPath: runSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
+      propertyPath: jumpPower
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}

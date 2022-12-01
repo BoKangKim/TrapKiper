@@ -2,12 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerData
-{
-
-
-}
-
 public enum STATE
 {
     NONE,
@@ -23,7 +17,8 @@ public abstract class BasePlayer : MonoBehaviour
 {
     //Camera parent
     [Header("Follow CameraArm")]
-    [SerializeField] Transform cameraArmTr = null;
+    FollowCamera mainCamera = null;
+    Transform cameraArmTr = null;
 
     //Attack & Skill Set
     [Header("Attack Info")]
@@ -38,13 +33,19 @@ public abstract class BasePlayer : MonoBehaviour
     AnimationEventReciver EventReciver = null;
 
     //Player Speed Value
-    [Header("Player Speed")]
+    [Header("Player Stat Value")]
     [SerializeField] float playerSpeed  = 30f;
     [SerializeField] float runSpeed     = 50f;
     [SerializeField] float jumpSpeed    = 20f;
     [SerializeField] float JumpRunSpeed = 40f;
     [SerializeField] float stopSpeed    = 5f;
+    [SerializeField] float jumpPower    = 7f;
     float originSpeed                   = 0;
+
+    [Header("Player Battle Value")]
+    [SerializeField] float MaxplayerHp       = 50f;
+    [SerializeField] float MaxPlayerMp       = 50f;
+    [SerializeField] float playerAttackPower = 10f;
 
     //Dir Vector
     Vector3 lookForward = Vector3.zero;
@@ -70,64 +71,71 @@ public abstract class BasePlayer : MonoBehaviour
     private STATE curState;
     //Current Coroutine
     private Coroutine stateCoroutine;
-    private Coroutine moveCoroutine;
 
+    private void Awake()
+    {
+        Init();
+    }
+    private void Start()
+    {
+        StartImplemented();
+    }
     private void Update()
+    {
+        PlyaerMove();
+    }
+    private void FixedUpdate()
     {
         UpdateImplemented();
     }
 
-    private void FixedUpdate()
-    {
-        PlyaerMove();
-    }
-
-    //Awake&&Start method
-    #region Awake&&Start method
-    protected virtual void Init()
+    //Awake&&Start&&Update method
+    #region Awake && Start && Update method
+    void Init()
     {
         playerAnimator   = GetComponent<Animator>();
         playerTr         = GetComponent<Transform>();
         playerRb         = GetComponent<Rigidbody>();
-        AnimationEventReciver EventReciver     = GetComponent<AnimationEventReciver>();
+        cameraArmTr      = FindObjectOfType<FollowCamera>().transform;
+        mainCamera       = FindObjectOfType<FollowCamera>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
     }
-    protected virtual void StartImplemented()
+    void StartImplemented()
     {
-        //EventReciver.callJumpEvent = JumpStart;
-        //EventReciver.callJunpEndEvent = JumpEnd;
-        //EventReciver.callAttackEvent = BasicAttack;
-        //EventReciver.callSkillEvent  = SkillAttack;
+        AnimationEventReciver EventReciver = GetComponent<AnimationEventReciver>();
+        EventReciver.callJumpEvent = JumpStart;
+        EventReciver.callJunpEndEvent = JumpEnd;
+        EventReciver.callAttackEvent = BasicAttack;
+        EventReciver.callSkillEvent = SkillAttack;
 
         originSpeed = playerSpeed;
         ChageState(STATE.MOVE_STATE);
     }
-    #endregion
-    //Update method
-    #region Update method
-    protected virtual void UpdateImplemented()
+    void UpdateImplemented()
     {
         GetAxisValue();
-
-        FollowCamera();
 
         InputKey();
 
         PlayerRotation();
     }
-    void GetAxisValue()
+    #endregion
+
+    //Update method
+    #region Update method
+    protected virtual void GetAxisValue()
     {
         //Mouse Axis
-        mouseX += Input.GetAxis("Mouse X")*2;
+        mouseX += Input.GetAxis("Mouse X")*6;
         mouseY += Input.GetAxis("Mouse Y")*2;
 
         //Keyboard Axis
         axisX = Input.GetAxis("Horizontal");
         axisZ = Input.GetAxis("Vertical");
     }
-    void InputKey()
+    protected virtual void InputKey()
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -154,28 +162,20 @@ public abstract class BasePlayer : MonoBehaviour
             playerAnimator.SetTrigger("isSkill");
         }
     }
-    void FollowCamera()
+    protected virtual void PlayerRotation()
     {
-        //FollowCam
-        cameraArmTr.position = playerTr.transform.position;
-
-        if (-mouseY <= -40f)
-        {
-            mouseY = 39.5f;
-            return;
-        }
-        else if (-mouseY >= 30f)
-        {
-            mouseY = -29.5f;
-        }
-
-        //Camera Rotation
-        cameraArmTr.rotation = Quaternion.Euler(-mouseY, mouseX, 0);
-        //Player Rtation
+        playerTr.rotation = Quaternion.Euler(0, mainCamera.mouseX, 0);
     }
-    void PlayerRotation()
+    protected virtual void PlyaerMove()
     {
-        playerTr.rotation = Quaternion.Euler(0, mouseX, 0);
+        lookForward = new Vector3(cameraArmTr.transform.forward.x, 0, cameraArmTr.transform.forward.z);
+        lookRight = new Vector3(cameraArmTr.transform.right.x, 0, cameraArmTr.transform.right.z);
+
+        if (axisX != 0 || axisZ != 0)
+        {
+            moveDir = lookForward * axisZ + lookRight * axisX;
+            playerRb.MovePosition(this.gameObject.transform.position + moveDir.normalized * playerSpeed * Time.fixedDeltaTime);
+        }
     }
     #endregion
 
@@ -193,7 +193,7 @@ public abstract class BasePlayer : MonoBehaviour
 
     void JumpStart()
     {
-        playerRb.AddForce(Vector3.up * 7f, ForceMode.VelocityChange);
+        playerRb.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
     }
 
     void JumpEnd()
@@ -204,19 +204,6 @@ public abstract class BasePlayer : MonoBehaviour
         playerSpeed=originSpeed;
     }
     #endregion
-   
-
-    void PlyaerMove()
-    {
-        lookForward = new Vector3(cameraArmTr.transform.forward.x, 0, cameraArmTr.transform.forward.z);
-        lookRight = new Vector3(cameraArmTr.transform.right.x, 0, cameraArmTr.transform.right.z);
-
-        if (axisX != 0 || axisZ != 0)
-        {
-            moveDir = lookForward * axisZ + lookRight * axisX;
-            playerRb.MovePosition(this.gameObject.transform.position + moveDir.normalized * playerSpeed * Time.fixedDeltaTime);
-        }
-    }
 
     //Coroutine state machine
     void ChageState(STATE newState)
