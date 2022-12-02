@@ -223,6 +223,7 @@ MonoBehaviour:
   cameraArmTr: {fileID: 1130404510}
   playerTr: {fileID: 871498173}
   mouseX: 0
+  mouseY: 0
 --- !u!4 &871498173 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8452664678573959834, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
@@ -342,7 +343,7 @@ Transform:
   m_Children:
   - {fileID: 448330874}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 6, z: 0}
 --- !u!1001 &1780323094
 PrefabInstance:
@@ -356,8 +357,8 @@ PrefabInstance:
       value: Wizard
       objectReference: {fileID: 0}
     - target: {fileID: 8452664678573959832, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
-      propertyPath: m_Drag
-      value: 5
+      propertyPath: m_Mass
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8452664678573959834, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
       propertyPath: m_RootOrder
@@ -403,33 +404,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
-      propertyPath: runSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
-      propertyPath: jumpPower
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
-      propertyPath: jumpSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
-      propertyPath: stopSpeed
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
-      propertyPath: cameraArmTr
-      value: 
-      objectReference: {fileID: 1130404510}
-    - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
-      propertyPath: playerSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8452664678573959837, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
-      propertyPath: JumpRunSpeed
-      value: 5
+    - target: {fileID: 8452664678573959839, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
+      propertyPath: m_Height
+      value: 2.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f06fa6282d03aa340b419bf4e291f0bd, type: 3}
@@ -494,7 +471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2020136509366821810, guid: 8718822f553bf654e973d035061358d0, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2020136509366821810, guid: 8718822f553bf654e973d035061358d0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -972,7 +949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4009012018826273252, guid: 53c49b7c9af374d21a4fc4b3045f2bdf, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4009012018826273252, guid: 53c49b7c9af374d21a4fc4b3045f2bdf, type: 3}
       propertyPath: m_LocalPosition.x

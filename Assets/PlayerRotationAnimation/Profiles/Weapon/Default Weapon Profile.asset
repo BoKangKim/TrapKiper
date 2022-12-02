@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3206e05202e0a9e4db29170f7e9e3c86, type: 3}
+  m_Name: Default Weapon Profile
+  m_EditorClassIdentifier: 
+  weaponGate: 0.2
+  adjustmentSpeed: 10
+  lockedGunSettings:
+    positionOffset: {x: 3.428252, y: -0.447849, z: -1.083687}
+    rotationOffset: {x: -8.12028, y: 84.01889, z: 92.61794}
+  useUnlockedSettings: 1
+  unlockedGunSettings:
+    positionOffset: {x: 0.02010167, y: 0.06315529, z: 0.02205014}
+    rotationOffset: {x: -85.85003, y: 106.8633, z: 80.4358}
+  handIkSettings:
+    leftHand:
+      positionOffset: {x: -1.088403, y: -3.662221, z: 0.2980752}
+      rotationOffset: {x: 9.198089, y: -36.79242, z: 87.38197}
+    rightHand:
+      positionOffset: {x: 0.1100564, y: 1.422958, z: -1.933959}
+      rotationOffset: {x: 16.86326, y: -95.04722, z: 165.5661}
+  fingerPositionSettings:
+    leftHand:
+      HandPositionBlend: 1
+      HandOpenness: 0
+    rightHand:
+      HandPositionBlend: 0
+  recoil:
+    minimumShotMagnitude: 40
+    maximumShotMagnitude: 50
+    entrySpeed: 60
+    recoverySpeed: 80
+    animationSpeed: 1.35
+    recoilWeight:
+      left:
+        enabled: 1
+        lowerLimit: 0
+        upperLimit: 0
+      right:
+        enabled: 1
+        lowerLimit: 0
+        upperLimit: 0
+      up:
+        enabled: 1
+        lowerLimit: 0
+        upperLimit: 0
+      down:
+        enabled: 1
+        lowerLimit: 0
+        upperLimit: 0
+      kick: 1
+    persistentSoftCap:
+      enabled: 1
+      value: 40
+      softness: 0.8
+    persistentHardCap:
+      enabled: 1
+      value: 50
+  projectileDropCorrection: 0
+  correctionMaximumAngleLimit: 0

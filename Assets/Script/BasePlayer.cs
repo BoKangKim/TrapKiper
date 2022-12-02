@@ -17,40 +17,43 @@ public abstract class BasePlayer : MonoBehaviour
 {
     //Camera parent
     [Header("Follow CameraArm")]
-    FollowCamera mainCamera = null;
-    Transform cameraArmTr = null;
+    private FollowCamera mainCamera = null;
+    private Transform cameraArmTr = null;
 
     //Attack & Skill Set
     [Header("Attack Info")]
-    [SerializeField] Transform attackStartZone    = null;
-    [SerializeField] GameObject basicAttackPrefab = null;
-    [SerializeField] GameObject skillAttackPrefab = null;
+    [SerializeField] private Transform attackStartZone    = null;
+    [SerializeField] private GameObject basicAttackPrefab = null;
+    [SerializeField] private GameObject skillAttackPrefab = null;
 
     //Player component
-    Animator playerAnimator            = null;
-    Transform playerTr                 = null;
-    Rigidbody playerRb                 = null;
-    AnimationEventReciver EventReciver = null;
+    private Animator playerAnimator = null;
+    private Transform playerTr      = null;
+    private Rigidbody playerRb      = null;
+
+    //Player Body
+    [Header("Player Body")]
+    [SerializeField] RectTransform playerCanvas  = null;
 
     //Player Speed Value
     [Header("Player Stat Value")]
-    [SerializeField] float playerSpeed  = 30f;
-    [SerializeField] float runSpeed     = 50f;
-    [SerializeField] float jumpSpeed    = 20f;
-    [SerializeField] float JumpRunSpeed = 40f;
-    [SerializeField] float stopSpeed    = 5f;
-    [SerializeField] float jumpPower    = 7f;
-    float originSpeed                   = 0;
+    [SerializeField] private float playerSpeed  = 30f;
+    [SerializeField] private float runSpeed     = 50f;
+    [SerializeField] private float jumpSpeed    = 20f;
+    [SerializeField] private float JumpRunSpeed = 40f;
+    [SerializeField] private float stopSpeed    = 5f;
+    [SerializeField] private float jumpPower    = 7f;
+    private float originSpeed                   = 0;
 
     [Header("Player Battle Value")]
-    [SerializeField] float MaxplayerHp       = 50f;
-    [SerializeField] float MaxPlayerMp       = 50f;
-    [SerializeField] float playerAttackPower = 10f;
+    [SerializeField] private float MaxplayerHp       = 50f;
+    [SerializeField] private float MaxPlayerMp       = 50f;
+    [SerializeField] private float playerAttackPower = 10f;
 
     //Dir Vector
-    Vector3 lookForward = Vector3.zero;
-    Vector3 lookRight   = Vector3.zero;
-    Vector3 moveDir     = Vector3.zero;
+    private Vector3 lookForward = Vector3.zero;
+    private Vector3 lookRight   = Vector3.zero;
+    private Vector3 moveDir     = Vector3.zero;
 
     //Check Value
     private bool isRun      = false;
@@ -76,17 +79,21 @@ public abstract class BasePlayer : MonoBehaviour
     {
         Init();
     }
+
     private void Start()
     {
         StartImplemented();
     }
+
     private void Update()
     {
-        PlyaerMove();
+        UpdateImplemented();
+
     }
+
     private void FixedUpdate()
     {
-        UpdateImplemented();
+        PlyaerMove();
     }
 
     //Awake&&Start&&Update method
@@ -98,10 +105,10 @@ public abstract class BasePlayer : MonoBehaviour
         playerRb         = GetComponent<Rigidbody>();
         cameraArmTr      = FindObjectOfType<FollowCamera>().transform;
         mainCamera       = FindObjectOfType<FollowCamera>();
-
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
     }
+
     void StartImplemented()
     {
         AnimationEventReciver EventReciver = GetComponent<AnimationEventReciver>();
@@ -151,11 +158,13 @@ public abstract class BasePlayer : MonoBehaviour
         {
             playerAnimator.SetTrigger("isAttack");
         }
-        if (Input.GetKeyDown(KeyCode.Space) && jumpCheck == false)
+
+        if (Input.GetKeyDown(KeyCode.Space)&& jumpCheck == false)
         {
             jumpCheck = true;
             ChageState(STATE.JUMP_STATE);
         }
+
         if(Input.GetKeyDown(KeyCode.X) && jumpCheck == false && isRun == false && skillCheck == false)
         {
             skillCheck = true;
@@ -164,8 +173,11 @@ public abstract class BasePlayer : MonoBehaviour
     }
     protected virtual void PlayerRotation()
     {
-        playerTr.rotation = Quaternion.Euler(0, mainCamera.mouseX, 0);
+        playerTr.rotation = Quaternion.Euler(0, mainCamera.mouseX,0);
+        attackStartZone.rotation= Quaternion.Euler(-mainCamera.mouseY,mainCamera.mouseX, 0);
+        playerCanvas.rotation = Quaternion.Euler(-mainCamera.mouseY, mainCamera.mouseX, 0);
     }
+
     protected virtual void PlyaerMove()
     {
         lookForward = new Vector3(cameraArmTr.transform.forward.x, 0, cameraArmTr.transform.forward.z);
@@ -183,7 +195,7 @@ public abstract class BasePlayer : MonoBehaviour
     #region delgate method
     void BasicAttack()
     {
-        Instantiate(basicAttackPrefab, attackStartZone.position, transform.rotation);
+        Instantiate(basicAttackPrefab, attackStartZone.position, attackStartZone.rotation);
     }
 
     void SkillAttack()
@@ -198,10 +210,12 @@ public abstract class BasePlayer : MonoBehaviour
 
     void JumpEnd()
     {
-        ChageState(STATE.MOVE_STATE);
-
         jumpCheck = false;
-        playerSpeed=originSpeed;
+        
+
+        ChageState(STATE.MOVE_STATE);
+        
+        playerSpeed = originSpeed;
     }
     #endregion
 
