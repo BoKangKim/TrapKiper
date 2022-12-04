@@ -7,7 +7,11 @@ public class Wizard : BasePlayer
   
     public override IEnumerator SKILL_STATE()
     {
-        return base.SKILL_STATE();
+        castCheck = false;
 
+        yield return new WaitUntil(()=> !instSkill);
+        GetComponent<ISkill>().enabled = false;
+
+        ChageState(STATE.MOVE_STATE);
     }
 }   

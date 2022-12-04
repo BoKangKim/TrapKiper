@@ -10,6 +10,7 @@ public abstract class ISkill : MonoBehaviour
     private void Awake()
     {
         myData = GetComponent<SkillData>();
+        myData.info.player = GetComponent<BasePlayer>();
     }
       
     public void ActiveSkill()

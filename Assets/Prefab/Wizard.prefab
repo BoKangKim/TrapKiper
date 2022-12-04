@@ -1289,6 +1289,8 @@ GameObject:
   - component: {fileID: 8452664678573959839}
   - component: {fileID: 8452664678573959838}
   - component: {fileID: 8452664678573959837}
+  - component: {fileID: 5425109074340199838}
+  - component: {fileID: -6933816794414085000}
   m_Layer: 0
   m_Name: Wizard
   m_TagString: Untagged
@@ -1373,7 +1375,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 1.8
+  m_Height: 2.1
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &8452664678573959838
@@ -1402,7 +1404,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackStartZone: {fileID: 8952088586061524597}
   basicAttackPrefab: {fileID: 257663167290318244, guid: c6ee2748a2a45ee469255d60bd14a2bb, type: 3}
-  skillAttackPrefab: {fileID: 257663167290318244, guid: c6ee2748a2a45ee469255d60bd14a2bb, type: 3}
   playerCanvas: {fileID: 8952088587413717533}
   playerSpeed: 5
   runSpeed: 15
@@ -1413,6 +1414,41 @@ MonoBehaviour:
   MaxplayerHp: 50
   MaxPlayerMp: 50
   playerAttackPower: 10
+  instSkill: 0
+--- !u!114 &5425109074340199838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8452664678573698444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac4928cb5eea64f4c858188367b8fac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info:
+    name: IceRain
+    effect:
+    - {fileID: 1658525510040468, guid: ce22cfb4b3b4ac04eb52aa2a2350d370, type: 3}
+    - {fileID: 1609107109629186, guid: 1acef02b08a049e4892d2976a290e73c, type: 3}
+    player: {fileID: 0}
+    arrange: {x: 0, y: 0, z: 0}
+    playTime: 0
+    sound: {fileID: 0}
+    isPlaying: 0
+--- !u!114 &-6933816794414085000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8452664678573698444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b5c66dad02e90049a62b6b9c173f2d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8452664678573698546
 GameObject:
   m_ObjectHideFlags: 0

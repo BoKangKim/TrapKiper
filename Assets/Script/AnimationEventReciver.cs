@@ -6,14 +6,17 @@ using UnityEngine;
 public delegate void OnJumpEvent();
 public delegate void OnJumpEndEvent();
 public delegate void OnAttackEvent();
-public delegate void OnSkillEvent();
+public delegate void OnSkillEndEvent();
+public delegate void OnskillStartEvent();
 
 public class AnimationEventReciver : MonoBehaviour
 {
     public OnJumpEvent callJumpEvent = null;
     public OnJumpEndEvent callJunpEndEvent=null;
     public OnAttackEvent callAttackEvent = null;
-    public OnSkillEvent callSkillEvent = null;
+    public OnSkillEndEvent callSkillEndEvent = null;
+    public OnskillStartEvent callSkillStartEvent = null;
+
 
     public void JumpStartEvent()
     {
@@ -37,13 +40,18 @@ public class AnimationEventReciver : MonoBehaviour
             callAttackEvent();
         }
     }
-
-    public void SkillEvent()
+    public void SkillEndEvent()
     {
-        if (callSkillEvent != null)
+        if (callSkillEndEvent != null)
         {
-            callSkillEvent();
+            callSkillEndEvent();
         }
     }
-
+    public void SkillStartEvent()
+    {
+        if (callSkillStartEvent != null)
+        {
+            callSkillStartEvent();
+        }
+    }
 }

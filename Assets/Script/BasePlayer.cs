@@ -22,9 +22,8 @@ public abstract class BasePlayer : MonoBehaviour
 
     //Attack & Skill Set
     [Header("Attack Info")]
-    [SerializeField] private Transform attackStartZone    = null;
+    [SerializeField] public Transform attackStartZone    = null;
     [SerializeField] private GameObject basicAttackPrefab = null;
-    [SerializeField] private GameObject skillAttackPrefab = null;
 
     //Player component
     private Animator playerAnimator = null;
@@ -37,13 +36,13 @@ public abstract class BasePlayer : MonoBehaviour
 
     //Player Speed Value
     [Header("Player Stat Value")]
-    [SerializeField] private float playerSpeed  = 30f;
-    [SerializeField] private float runSpeed     = 50f;
-    [SerializeField] private float jumpSpeed    = 20f;
-    [SerializeField] private float JumpRunSpeed = 40f;
-    [SerializeField] private float stopSpeed    = 5f;
-    [SerializeField] private float jumpPower    = 7f;
-    private float originSpeed                   = 0;
+    [SerializeField] protected float playerSpeed  = 30f;
+    [SerializeField] private float runSpeed       = 50f;
+    [SerializeField] private float jumpSpeed      = 20f;
+    [SerializeField] private float JumpRunSpeed   = 40f;
+    [SerializeField] private float stopSpeed      = 5f;
+    [SerializeField] private float jumpPower      = 7f;
+    protected float originSpeed                   = 0;
 
     [Header("Player Battle Value")]
     [SerializeField] private float MaxplayerHp       = 50f;
@@ -58,7 +57,7 @@ public abstract class BasePlayer : MonoBehaviour
     //Check Value
     private bool isRun      = false;
     private bool jumpCheck  = false;
-    private bool skillCheck = false;
+    public  bool castCheck   = false;
 
     //axis Value
     private float mouseX = 0;
@@ -115,7 +114,8 @@ public abstract class BasePlayer : MonoBehaviour
         EventReciver.callJumpEvent = JumpStart;
         EventReciver.callJunpEndEvent = JumpEnd;
         EventReciver.callAttackEvent = BasicAttack;
-        EventReciver.callSkillEvent = SkillAttack;
+        EventReciver.callSkillEndEvent = SkillEnd;
+        EventReciver.callSkillStartEvent = SkillStart;
 
         originSpeed = playerSpeed;
         ChageState(STATE.MOVE_STATE);
@@ -154,20 +154,21 @@ public abstract class BasePlayer : MonoBehaviour
             isRun = false;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)&& instSkill == false)
         {
             playerAnimator.SetTrigger("isAttack");
         }
 
-        if (Input.GetKeyDown(KeyCode.Space)&& jumpCheck == false)
+        if (Input.GetKeyDown(KeyCode.Space)&& jumpCheck == false && instSkill == false)
         {
             jumpCheck = true;
             ChageState(STATE.JUMP_STATE);
         }
 
-        if(Input.GetKeyDown(KeyCode.X) && jumpCheck == false && isRun == false && skillCheck == false)
+        Debug.Log(playerSpeed);
+        if(Input.GetKeyDown(KeyCode.X) && jumpCheck == false && isRun == false && instSkill == false)
         {
-            skillCheck = true;
+            instSkill = true;
             playerAnimator.SetTrigger("isSkill");
         }
     }
@@ -198,11 +199,20 @@ public abstract class BasePlayer : MonoBehaviour
         Instantiate(basicAttackPrefab, attackStartZone.position, attackStartZone.rotation);
     }
 
-    void SkillAttack()
+    void SkillEnd()
     {
-       StartCoroutine(SKILL_STATE());
+       ChageState(STATE.SKILL_STATE);
     }
+    void SkillStart()
+    {
+        Debug.Log("½ºÅ³ ¹ß»ç");
+        castCheck = true;
+        playerSpeed = 0;
+        playerAnimator.SetBool("isMove", false);
+        StopCoroutine(stateCoroutine);
+        GetComponent<ISkill>().enabled = true;
 
+    }
     void JumpStart()
     {
         playerRb.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
@@ -220,7 +230,7 @@ public abstract class BasePlayer : MonoBehaviour
     #endregion
 
     //Coroutine state machine
-    void ChageState(STATE newState)
+    protected void ChageState(STATE newState)
     {
         if (newState == curState) return;
 
@@ -234,6 +244,7 @@ public abstract class BasePlayer : MonoBehaviour
 
     IEnumerator MOVE_STATE()
     {
+        Debug.Log("°È±âµé¾î¿È");
         float speed = 0;
        
         playerAnimator.SetBool("isMove", true);
@@ -268,7 +279,7 @@ public abstract class BasePlayer : MonoBehaviour
 
             if (0.3f >= Mathf.Abs(fixedAxisZ) && 0.3f >= Mathf.Abs(fixedAxisX))
                 playerSpeed = playerSpeed / 2;
-            else
+            else 
                 playerSpeed = originSpeed;
 
             yield return null;
@@ -303,13 +314,12 @@ public abstract class BasePlayer : MonoBehaviour
         }
     }
 
-    public virtual IEnumerator SKILL_STATE()
-    {
-        GameObject skill = Instantiate(basicAttackPrefab, attackStartZone.position, transform.rotation);
-        skill.transform.localScale = new Vector3(2f,2f,2f);
-        skillCheck = false;
-        yield return null;
-    }
+
+    public bool instSkill = false;
+
+
+    public abstract IEnumerator SKILL_STATE();
+   
 
     private void OnCollisionEnter(Collision collision)
     {

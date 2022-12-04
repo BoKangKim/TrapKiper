@@ -8,7 +8,8 @@ public class SkillData : MonoBehaviour
     public struct Info
     {
         public string name;
-        public GameObject effect;
+        public GameObject[] effect;
+        public BasePlayer player;
         public Vector3 arrange;
         public float playTime;
         public AudioClip sound;
