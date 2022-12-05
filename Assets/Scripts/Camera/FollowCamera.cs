@@ -6,7 +6,7 @@ public class FollowCamera : MonoBehaviour
 {
     [Header("Camera")]
     [SerializeField] private Transform cameraArmTr = null;
-    [SerializeField] private Transform playerTr    = null;
+    private Transform playerTr    = null;
 
     public float mouseX = 0;
     public float mouseY = 0;
@@ -15,6 +15,11 @@ public class FollowCamera : MonoBehaviour
 
     private RaycastHit hit;
     private Vector3 dir;
+
+    private void Awake()
+    {
+        playerTr = GameManager.Inst.player.gameObject.transform;
+    }
 
     private void Update()
     {

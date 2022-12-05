@@ -8,6 +8,7 @@ public enum STATE
     IDLE_STATE,
     MOVE_STATE,
     JUMP_STATE,
+    CAST_STATE,
     SKILL_STATE,
     DIE_STATE,
     MAX
@@ -24,8 +25,9 @@ public abstract class BasePlayer : MonoBehaviour
 
     //Attack & Skill Set
     [Header("Attack Info")]
-    [SerializeField] public Transform attackStartZone    = null;
-    [SerializeField] private GameObject basicAttackPrefab = null;
+    [SerializeField] public Transform attackStartZone       = null;
+    [SerializeField] private GameObject basicAttackPrefab   = null;
+    [SerializeField] protected SkillData[] gainSkills       = null;
 
     //Player component
     private Animator playerAnimator = null;
@@ -74,7 +76,7 @@ public abstract class BasePlayer : MonoBehaviour
     //Current Animation State
     private STATE curState;
     //Current Coroutine
-    private Coroutine stateCoroutine;
+    protected Coroutine stateCoroutine;
     #endregion
 
     //Awake&&Start&&Update method
@@ -147,6 +149,8 @@ public abstract class BasePlayer : MonoBehaviour
     }
     protected virtual void InputKey()
     {
+        Debug.Log(playerSpeed);
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             isRun = true;
@@ -167,13 +171,12 @@ public abstract class BasePlayer : MonoBehaviour
             jumpCheck = true;
             ChageState(STATE.JUMP_STATE);
         }
-
-        Debug.Log(playerSpeed);
-        if(Input.GetKeyDown(KeyCode.X) && jumpCheck == false && isRun == false && instSkill == false)
+        if(Input.GetKeyDown(KeyCode.X) && jumpCheck == false && isRun == false && instSkill == false && castCheck ==false)
         {
-            instSkill = true;
+            castCheck = true;
             playerAnimator.SetTrigger("isSkill");
         }
+
     }
     protected virtual void PlayerRotation()
     {
@@ -204,17 +207,12 @@ public abstract class BasePlayer : MonoBehaviour
 
     void SkillEnd()
     {
-       ChageState(STATE.SKILL_STATE);
+       castCheck = false;
     }
 
     void SkillStart()
     {
-        Debug.Log("½ºÅ³ ¹ß»ç");
-        castCheck = true;
-        playerSpeed = 0;
-        playerAnimator.SetBool("isMove", false);
-        StopCoroutine(stateCoroutine);
-        //GetComponent<ISkill>().enabled = true;
+        ChageState(STATE.CAST_STATE);
     }
 
     void JumpStart()
@@ -225,11 +223,8 @@ public abstract class BasePlayer : MonoBehaviour
     void JumpEnd()
     {
         jumpCheck = false;
-        
 
         ChageState(STATE.MOVE_STATE);
-        
-        playerSpeed = originSpeed;
     }
     #endregion
 
@@ -248,7 +243,6 @@ public abstract class BasePlayer : MonoBehaviour
 
     IEnumerator MOVE_STATE()
     {
-        Debug.Log("°È±âµé¾î¿È");
         float speed = 0;
        
         playerAnimator.SetBool("isMove", true);
@@ -286,6 +280,9 @@ public abstract class BasePlayer : MonoBehaviour
             else 
                 playerSpeed = originSpeed;
 
+            if (castCheck == true || instSkill==true)
+                playerSpeed = 0;
+
             yield return null;
         }
     }
@@ -297,7 +294,11 @@ public abstract class BasePlayer : MonoBehaviour
         playerAnimator.SetBool("isMove", false);
         playerAnimator.SetTrigger("isJumpStart");
         playerAnimator.SetBool("isMove", false);
-        playerSpeed = jumpSpeed;
+
+        if(isRun)
+            playerSpeed = JumpRunSpeed;
+        else
+            playerSpeed = jumpSpeed;
 
         while (true)
         {
@@ -306,14 +307,6 @@ public abstract class BasePlayer : MonoBehaviour
             fixedAxisX = Mathf.Lerp(fixedAxisX, axisX, Time.fixedDeltaTime * 6);
             playerAnimator.SetFloat("axisX", fixedAxisX);
 
-            if (isRun)
-            {
-                playerSpeed = Mathf.Lerp(playerSpeed, JumpRunSpeed, Time.fixedDeltaTime * 2);
-                speed = Mathf.Lerp(speed, 0, Time.deltaTime);
-
-                playerAnimator.SetFloat("speed", speed);
-            }
-
             yield return null;
         }
     }
@@ -321,13 +314,13 @@ public abstract class BasePlayer : MonoBehaviour
 
     public bool instSkill = false;
 
-
+    public abstract IEnumerator CAST_STATE();
     public abstract IEnumerator SKILL_STATE();
    
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (jumpCheck && collision.contacts[0].normal.y > 0.7f)
+        if (jumpCheck && collision.contacts[0].normal.y > 0.8f)
         {
             playerSpeed = stopSpeed;
             playerAnimator.SetTrigger("isJumpEnd");

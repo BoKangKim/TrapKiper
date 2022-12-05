@@ -9,9 +9,8 @@ public class SkillData : MonoBehaviour
     {
         public string name;
         public GameObject[] effect;
-        public BasePlayer player;
-        public Vector3 arrange;
         public float playTime;
+        public float skillRange;
         public AudioClip sound;
         [HideInInspector] public bool isPlaying;
 

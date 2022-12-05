@@ -24342,6 +24342,8 @@ GameObject:
   - component: {fileID: 198292363696807212}
   - component: {fileID: 199898165525656704}
   - component: {fileID: 108061256973128750}
+  - component: {fileID: 6209379623563471811}
+  - component: {fileID: 7642481613872162733}
   m_Layer: 0
   m_Name: Wizard_IceRain
   m_TagString: Untagged
@@ -24385,7 +24387,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -29248,6 +29250,38 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &6209379623563471811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658525510040468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac4928cb5eea64f4c858188367b8fac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info:
+    name: 
+    effect:
+    - {fileID: 1658525510040468}
+    playTime: 5
+    skillRange: 5
+    sound: {fileID: 0}
+    isPlaying: 0
+--- !u!114 &7642481613872162733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658525510040468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b5c66dad02e90049a62b6b9c173f2d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1911160501087848
 GameObject:
   m_ObjectHideFlags: 0
