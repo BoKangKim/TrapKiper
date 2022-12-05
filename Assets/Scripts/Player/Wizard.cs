@@ -10,7 +10,7 @@ public class Wizard : BasePlayer
         castCheck = false;
 
         yield return new WaitUntil(()=> !instSkill);
-        GetComponent<ISkill>().enabled = false;
+        //GetComponent<ISkill>().enabled = false;
 
         ChageState(STATE.MOVE_STATE);
     }

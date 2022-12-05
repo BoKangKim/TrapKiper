@@ -15,6 +15,8 @@ public enum STATE
 [RequireComponent(typeof(AnimationEventReciver))]
 public abstract class BasePlayer : MonoBehaviour
 {
+
+    #region Members
     //Camera parent
     [Header("Follow CameraArm")]
     private FollowCamera mainCamera = null;
@@ -73,7 +75,10 @@ public abstract class BasePlayer : MonoBehaviour
     private STATE curState;
     //Current Coroutine
     private Coroutine stateCoroutine;
+    #endregion
 
+    //Awake&&Start&&Update method
+    #region Awake && Start && Update method
     private void Awake()
     {
         Init();
@@ -95,8 +100,6 @@ public abstract class BasePlayer : MonoBehaviour
         PlyaerMove();
     }
 
-    //Awake&&Start&&Update method
-    #region Awake && Start && Update method
     void Init()
     {
         playerAnimator   = GetComponent<Animator>();
@@ -203,6 +206,7 @@ public abstract class BasePlayer : MonoBehaviour
     {
        ChageState(STATE.SKILL_STATE);
     }
+
     void SkillStart()
     {
         Debug.Log("스킬 발사");
@@ -210,9 +214,9 @@ public abstract class BasePlayer : MonoBehaviour
         playerSpeed = 0;
         playerAnimator.SetBool("isMove", false);
         StopCoroutine(stateCoroutine);
-        GetComponent<ISkill>().enabled = true;
-
+        //GetComponent<ISkill>().enabled = true;
     }
+
     void JumpStart()
     {
         playerRb.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);

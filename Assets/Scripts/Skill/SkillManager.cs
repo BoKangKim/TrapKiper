@@ -6,6 +6,14 @@ public class SkillManager : MonoBehaviour
 {
     SkillData.Info defaultInfo;
     [SerializeField] private List<SkillData> skills = null;
+    private GameObject box = null;
+    public GameObject BOX { get { return box; } private set { box = value; } }
+
+
+    private void Awake()
+    {
+        box = new GameObject("SkillBox");
+    }
 
     public GameObject GetSkill(string skillName)
     {
