@@ -25,9 +25,13 @@ public abstract class BasePlayer : MonoBehaviour
 
     //Attack & Skill Set
     [Header("Attack Info")]
-    [SerializeField] public Transform attackStartZone       = null;
-    [SerializeField] private GameObject basicAttackPrefab   = null;
-    [SerializeField] protected SkillData[] gainSkills       = null;
+    [SerializeField] public Transform attackStartZone        = null;
+    [SerializeField] private GameObject basicAttackPrefab    = null;
+    [SerializeField] private GameObject basicAttackIndicator = null;
+    [SerializeField] private GameObject jumpEffect = null;
+    [SerializeField] protected SkillData[] gainSkills        = null;
+    private GameObject basicAttack = null;
+    private GameObject effect = null;
 
     //Player component
     private Animator playerAnimator = null;
@@ -59,9 +63,11 @@ public abstract class BasePlayer : MonoBehaviour
     private Vector3 moveDir     = Vector3.zero;
 
     //Check Value
-    private bool isRun      = false;
-    private bool jumpCheck  = false;
+    private bool isRun       = false;
+    private bool jumpCheck   = false;
     public  bool castCheck   = false;
+    private bool basicAttackChek = false;
+
 
     //axis Value
     private float mouseX = 0;
@@ -149,8 +155,6 @@ public abstract class BasePlayer : MonoBehaviour
     }
     protected virtual void InputKey()
     {
-        Debug.Log(playerSpeed);
-
         if (Input.GetKey(KeyCode.LeftShift))
         {
             isRun = true;
@@ -161,14 +165,21 @@ public abstract class BasePlayer : MonoBehaviour
             isRun = false;
         }
 
-        if (Input.GetMouseButtonDown(0)&& instSkill == false)
+        if (Input.GetMouseButtonDown(0) && instSkill == false && basicAttackChek == false)
         {
+            basicAttackChek = true;
+            basicAttack = Pool.ObjectInstantiate(basicAttackIndicator, transform.position, transform.rotation);
+            basicAttack.transform.SetParent(transform);
+            basicAttack.transform.position = transform.position + (transform.forward.normalized *2f)+(Vector3.up/2);
+
             playerAnimator.SetTrigger("isAttack");
         }
 
         if (Input.GetKeyDown(KeyCode.Space)&& jumpCheck == false && instSkill == false)
         {
             jumpCheck = true;
+            effect = Pool.ObjectInstantiate(jumpEffect, transform.position, Quaternion.identity);
+            effect.transform.SetParent(transform);
             ChageState(STATE.JUMP_STATE);
         }
         if(Input.GetKeyDown(KeyCode.X) && jumpCheck == false && isRun == false && instSkill == false && castCheck ==false)
@@ -202,12 +213,15 @@ public abstract class BasePlayer : MonoBehaviour
     #region delgate method
     void BasicAttack()
     {
-        Instantiate(basicAttackPrefab, attackStartZone.position, attackStartZone.rotation);
+        basicAttackChek = false;
+        Pool.ObjectInstantiate(basicAttackPrefab, attackStartZone.position, attackStartZone.rotation);
+        Pool.ObjectDestroy(basicAttack);
     }
 
     void SkillEnd()
     {
        castCheck = false;
+        Pool.ObjectDestroy(effect);
     }
 
     void SkillStart()
