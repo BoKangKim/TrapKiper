@@ -28,7 +28,7 @@ public abstract class BasePlayer : MonoBehaviour
     [SerializeField] public Transform attackStartZone        = null;
     [SerializeField] protected SkillData[] gainSkills        = null;
 
-    private EffectBox myEffectBox = null;
+    protected EffectBox myEffectBox = null;
     private GameObject indicator = null;
     private GameObject jumpEffect = null;
 

@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f41a38a702011438b00c1c5724bcca, type: 3}
   m_Name: EffectBox
   m_EditorClassIdentifier: 
+  jumpEffect: {fileID: 1698068915230344, guid: eb54ab5e189da8241a3ebb7ad29b6b32, type: 3}
   basicAttackPrefab: {fileID: 1242912157399330, guid: 4e8f279679818524795e8313c393b58d, type: 3}
   basicAttackIndicator: {fileID: 1048394385358214, guid: 29557d19c83522d43b35b476d8a0d982, type: 3}
-  jumpEffect: {fileID: 1698068915230344, guid: eb54ab5e189da8241a3ebb7ad29b6b32, type: 3}
+  drainEffect: {fileID: 1236643204216662, guid: c14e960cbaf5c9a4298620299b0dfcaf, type: 3}
+  FogEffect: {fileID: 1188071699679046, guid: 0bd070989ea42c84bb035082f827cbe9, type: 3}
+  skillIndicator: {fileID: 1231247210357622, guid: 609acb70527427e41909704febe28abb, type: 3}
