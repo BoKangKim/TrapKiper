@@ -27,6 +27,14 @@ public class GameManager : MonoBehaviour
     #endregion // Singleton
     [SerializeField] public SkillManager skillManager = null;
     [SerializeField] public BasePlayer player = null;
-    
+
+    public List<Monster> spawnMonsterList = null;
+
+
+    private void Awake()
+    {
+        spawnMonsterList = new List<Monster>();
+    }
+
 
 }
