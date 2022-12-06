@@ -56,6 +56,9 @@ public class FollowCamera : MonoBehaviour
 
         //Camera Rotation
         cameraArmTr.rotation = Quaternion.Euler(-mouseY, mouseX, 0);
+
+        transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(0, 4f, -3f), Time.fixedDeltaTime);
+        Camera.main.nearClipPlane = Mathf.Lerp(Camera.main.nearClipPlane, 0.3f, Time.fixedDeltaTime);
     }
 
     //Zoom Cam
@@ -72,8 +75,7 @@ public class FollowCamera : MonoBehaviour
                 Camera.main.nearClipPlane = Mathf.Lerp(Camera.main.nearClipPlane, 3.5f, Time.fixedDeltaTime);
             }
 
-            transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(0, 4f, -3f), Time.fixedDeltaTime);
-            Camera.main.nearClipPlane = Mathf.Lerp(Camera.main.nearClipPlane, 0.3f, Time.fixedDeltaTime);
+            
         }
 
     }

@@ -26,22 +26,17 @@ public abstract class BasePlayer : MonoBehaviour
     //Attack & Skill Set
     [Header("Attack Info")]
     [SerializeField] public Transform attackStartZone        = null;
-    [SerializeField] private GameObject basicAttackPrefab    = null;
-    [SerializeField] private GameObject basicAttackIndicator = null;
-    [SerializeField] private GameObject jumpEffect = null;
     [SerializeField] protected SkillData[] gainSkills        = null;
-    private GameObject basicAttack = null;
-    private GameObject[] effect = null;
+
+    private EffectBox myEffectBox = null;
+    private GameObject indicator = null;
+    private GameObject jumpEffect = null;
 
     //Player component
-    private Animator playerAnimator = null;
+    protected Animator playerAnimator = null;
     private Transform playerTr      = null;
     private Rigidbody playerRb      = null;
     private Collider playerCollider = null;
-
-    //Player Body
-    [Header("Player Body")]
-    [SerializeField] RectTransform playerCanvas  = null;
 
     //Player Speed Value
     [Header("Player Stat Value")]
@@ -73,12 +68,12 @@ public abstract class BasePlayer : MonoBehaviour
     //axis Value
     private float mouseX = 0;
     private float mouseY = 0;
-    private float axisX  = 0;
-    private float axisZ  = 0;
+    protected float axisX  = 0;
+    protected float axisZ  = 0;
 
     //player animation learp Value
-    private float fixedAxisZ = 0f;
-    private float fixedAxisX = 0f;
+    protected float fixedAxisZ = 0f;
+    protected float fixedAxisX = 0f;
 
     //Current Animation State
     private STATE curState;
@@ -117,7 +112,7 @@ public abstract class BasePlayer : MonoBehaviour
         playerRb       = GetComponent<Rigidbody>();
         cameraArmTr    = FindObjectOfType<FollowCamera>().transform;
         mainCamera     = FindObjectOfType<FollowCamera>();
-        effect = new GameObject[2];
+        myEffectBox = Resources.Load<EffectBox>("EffectBox");
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
@@ -172,24 +167,25 @@ public abstract class BasePlayer : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && instSkill == false && basicAttackChek == false)
         {
             basicAttackChek = true;
-            basicAttack = Pool.ObjectInstantiate(basicAttackIndicator, transform.position, transform.rotation);
-            basicAttack.transform.SetParent(transform);
-            basicAttack.transform.position = transform.position + (transform.forward.normalized *2f)+(Vector3.up/2);
-
-            Invoke("BasicAttack", 1f);
+            indicator = Pool.ObjectInstantiate(myEffectBox.basicAttackIndicator, attackStartZone.position, transform.rotation);
+            indicator.transform.SetParent(transform);
+            indicator.transform.position = transform.position;// + (transform.forward.normalized *1f)+(Vector3.up);
 
             playerAnimator.SetTrigger("isAttack");
+            Invoke("Inboke_BasicAttack", 1.1f);
+
         }
-        if (Input.GetKeyDown(KeyCode.Space)&& jumpCheck == false && instSkill == false && collisionCheck==false)
+        if (Input.GetKeyDown(KeyCode.Space)&& jumpCheck == false && castCheck == false)
         {
+            Debug.Log("input space");
             jumpCheck = true;
-            effect[0] = Pool.ObjectInstantiate(jumpEffect, transform.position, Quaternion.identity);
-            effect[0].transform.SetParent(transform);
+
             ChageState(STATE.JUMP_STATE);
-            Invoke("JumpStart", 0.02f);
+            Invoke("JumpStart", 0.05f);
         }
         if(Input.GetKeyDown(KeyCode.X) && jumpCheck == false && isRun == false && instSkill == false && castCheck ==false)
         {
+           
             castCheck = true;
             playerAnimator.SetTrigger("isSkill");
         }
@@ -199,7 +195,9 @@ public abstract class BasePlayer : MonoBehaviour
     {
         playerTr.rotation = Quaternion.Euler(0, mainCamera.mouseX,0);
         attackStartZone.rotation= Quaternion.Euler(-mainCamera.mouseY,mainCamera.mouseX, 0);
-        playerCanvas.rotation = Quaternion.Euler(-mainCamera.mouseY, mainCamera.mouseX, 0);
+        if(indicator!=null)
+        indicator.transform.rotation = Quaternion.Euler(0, mainCamera.mouseX, 0);
+
     }
 
     protected virtual void PlyaerMove()
@@ -207,20 +205,35 @@ public abstract class BasePlayer : MonoBehaviour
         lookForward = new Vector3(cameraArmTr.transform.forward.x, 0, cameraArmTr.transform.forward.z);
         lookRight = new Vector3(cameraArmTr.transform.right.x, 0, cameraArmTr.transform.right.z);
 
-        if (axisX != 0 || axisZ != 0)
+        if ((axisX != 0 || axisZ != 0 )&&castCheck==false)
         {
             moveDir = lookForward * axisZ + lookRight * axisX;
             playerRb.MovePosition(this.gameObject.transform.position + moveDir.normalized * playerSpeed * Time.fixedDeltaTime);
         }
+        else
+        {
+            moveDir = lookForward * axisZ + lookRight * axisX;
+            playerRb.MovePosition(this.gameObject.transform.position + moveDir.normalized * (playerSpeed/10) * Time.fixedDeltaTime);
+        }
     }
     #endregion
+
+    //Invoke metsod
+    void Invoke_BasicAttack()
+    {
+        basicAttackChek = false;
+
+        if(indicator != null)
+            Pool.ObjectDestroy(indicator);
+
+    }
 
     //delgate method
     #region delgate method
     void BasicAttack()
     {
-        Pool.ObjectInstantiate(basicAttackPrefab, attackStartZone.position, attackStartZone.rotation);
-        Pool.ObjectDestroy(basicAttack);
+        Pool.ObjectInstantiate(myEffectBox.basicAttackPrefab, attackStartZone.position, attackStartZone.rotation);
+        Pool.ObjectDestroy(indicator);
         basicAttackChek = false;
     }
 
@@ -236,17 +249,13 @@ public abstract class BasePlayer : MonoBehaviour
 
     void JumpStart()
     {
-        Debug.Log("점프 스타트");
         playerRb.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
     }
 
     void JumpEnd()
     {
-        Debug.Log("점프엔드");
-        
-        
         ChageState(STATE.MOVE_STATE);
-        collisionCheck = false;
+        Pool.ObjectDestroy(jumpEffect);
         jumpCheck = false;
     }
     #endregion
@@ -263,7 +272,7 @@ public abstract class BasePlayer : MonoBehaviour
 
         stateCoroutine = StartCoroutine(curState.ToString());
     }
-
+    
     IEnumerator MOVE_STATE()
     {
         float speed = 0;
@@ -274,9 +283,9 @@ public abstract class BasePlayer : MonoBehaviour
         playerSpeed = originSpeed;
         while (true)
         {
-            fixedAxisZ = Mathf.Lerp(fixedAxisZ, axisZ, 2f);
+            fixedAxisZ = Mathf.Lerp(fixedAxisZ, axisZ, Time.fixedDeltaTime * 6);
             playerAnimator.SetFloat("axisZ", fixedAxisZ);
-            fixedAxisX = Mathf.Lerp(fixedAxisX, axisX, 2f);
+            fixedAxisX = Mathf.Lerp(fixedAxisX, axisX, Time.fixedDeltaTime * 6);
             playerAnimator.SetFloat("axisX", fixedAxisX);
 
             if (isRun && axisZ >= 0)
@@ -300,14 +309,16 @@ public abstract class BasePlayer : MonoBehaviour
 
             if (0.3f >= Mathf.Abs(fixedAxisZ) && 0.3f >= Mathf.Abs(fixedAxisX))
                 playerSpeed = playerSpeed / 2;
-            else 
+            else
                 playerSpeed = originSpeed;
 
-            if (castCheck == true || instSkill==true)
-                playerSpeed = 0;
 
             yield return null;
         }
+
+
+
+
     }
 
     IEnumerator JUMP_STATE()
@@ -337,7 +348,6 @@ public abstract class BasePlayer : MonoBehaviour
 
 
     public bool instSkill = false;
-    private bool collisionCheck = false;
 
     public abstract IEnumerator CAST_STATE();
     public abstract IEnumerator SKILL_STATE();
@@ -346,13 +356,12 @@ public abstract class BasePlayer : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (jumpCheck && collision.contacts[0].normal.y > 0.7f && collisionCheck == false)
+        if (jumpCheck && collision.contacts[0].normal.y > 0.7f)
         {
-            Debug.Log("콜리전");
-            effect[1] = Pool.ObjectInstantiate(jumpEffect, transform.position, Quaternion.identity);
-            effect[1].transform.SetParent(transform);
+            jumpEffect = Pool.ObjectInstantiate(myEffectBox.jumpEffect, transform.position, Quaternion.identity);
+            jumpEffect.transform.SetParent(transform);
+
             playerCollider.material.dynamicFriction = 10;
-            collisionCheck = true;
             playerSpeed = stopSpeed;
             playerAnimator.SetTrigger("isJumpEnd");
             playerAnimator.SetBool("isJump", false);

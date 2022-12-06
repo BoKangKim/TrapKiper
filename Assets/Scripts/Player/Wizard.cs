@@ -7,13 +7,32 @@ public class Wizard : BasePlayer
     public override IEnumerator CAST_STATE()
     {
         Pool.ObjectInstantiate(gainSkills[0].gameObject,transform.position,Quaternion.identity);
-
+        
+        StartCoroutine(ChangeIdle());
         yield return new WaitUntil(() => !castCheck);
 
         instSkill = true;
         ChageState(STATE.SKILL_STATE);
         yield break;
     }
+
+    IEnumerator ChangeIdle()
+    {
+        while(castCheck)
+        {
+            fixedAxisZ = Mathf.Lerp(fixedAxisZ, 0, 0.1f);
+            playerAnimator.SetFloat("axisZ", fixedAxisZ);
+            fixedAxisX = Mathf.Lerp(fixedAxisX, 0, 0.1f);
+            playerAnimator.SetFloat("axisX", fixedAxisX);
+
+            playerSpeed = 0;
+
+            yield return null;
+        }
+    }
+
+
+
 
     public override IEnumerator SKILL_STATE()
     {

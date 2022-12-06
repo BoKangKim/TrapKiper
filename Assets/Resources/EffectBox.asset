@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04f41a38a702011438b00c1c5724bcca, type: 3}
+  m_Name: EffectBox
+  m_EditorClassIdentifier: 
+  basicAttackPrefab: {fileID: 1242912157399330, guid: 4e8f279679818524795e8313c393b58d, type: 3}
+  basicAttackIndicator: {fileID: 1048394385358214, guid: 29557d19c83522d43b35b476d8a0d982, type: 3}
+  jumpEffect: {fileID: 1698068915230344, guid: eb54ab5e189da8241a3ebb7ad29b6b32, type: 3}
