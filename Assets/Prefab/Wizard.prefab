@@ -1604,10 +1604,10 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: 69a4c23942ba0a4419287d5bbbec557a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2.1
+  m_Radius: 0.25
+  m_Height: 1.9
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.925, z: 0}
 --- !u!114 &8452664678573959838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1635,7 +1635,7 @@ MonoBehaviour:
   attackStartZone: {fileID: 8952088586061524597}
   basicAttackPrefab: {fileID: 1242912157399330, guid: 4e8f279679818524795e8313c393b58d, type: 3}
   basicAttackIndicator: {fileID: 1048394385358214, guid: 29557d19c83522d43b35b476d8a0d982, type: 3}
-  jumpEffect: {fileID: 1173262663564242, guid: 570827c0cc468d94f8bb0cb028fceecb, type: 3}
+  jumpEffect: {fileID: 1698068915230344, guid: eb54ab5e189da8241a3ebb7ad29b6b32, type: 3}
   gainSkills:
   - {fileID: 427579776752824683, guid: 1acef02b08a049e4892d2976a290e73c, type: 3}
   - {fileID: 6209379623563471811, guid: ce22cfb4b3b4ac04eb52aa2a2350d370, type: 3}

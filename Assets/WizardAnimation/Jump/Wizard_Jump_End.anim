@@ -48480,11 +48480,4 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.6
-    functionName: JumpEndEvent
-    data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 7472a4cb5a014a744a38b34b3c26fd8d, type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []

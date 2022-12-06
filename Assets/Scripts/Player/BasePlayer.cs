@@ -31,12 +31,13 @@ public abstract class BasePlayer : MonoBehaviour
     [SerializeField] private GameObject jumpEffect = null;
     [SerializeField] protected SkillData[] gainSkills        = null;
     private GameObject basicAttack = null;
-    private GameObject effect = null;
+    private GameObject[] effect = null;
 
     //Player component
     private Animator playerAnimator = null;
     private Transform playerTr      = null;
     private Rigidbody playerRb      = null;
+    private Collider playerCollider = null;
 
     //Player Body
     [Header("Player Body")]
@@ -110,11 +111,14 @@ public abstract class BasePlayer : MonoBehaviour
 
     void Init()
     {
-        playerAnimator   = GetComponent<Animator>();
-        playerTr         = GetComponent<Transform>();
-        playerRb         = GetComponent<Rigidbody>();
-        cameraArmTr      = FindObjectOfType<FollowCamera>().transform;
-        mainCamera       = FindObjectOfType<FollowCamera>();
+        playerAnimator = GetComponent<Animator>();
+        playerTr       = GetComponent<Transform>();
+        playerCollider = GetComponent<Collider>();
+        playerRb       = GetComponent<Rigidbody>();
+        cameraArmTr    = FindObjectOfType<FollowCamera>().transform;
+        mainCamera     = FindObjectOfType<FollowCamera>();
+        effect = new GameObject[2];
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
     }
@@ -164,7 +168,7 @@ public abstract class BasePlayer : MonoBehaviour
             playerAnimator.SetBool("isRun", false);
             isRun = false;
         }
-
+        Debug.Log(curState);
         if (Input.GetMouseButtonDown(0) && instSkill == false && basicAttackChek == false)
         {
             basicAttackChek = true;
@@ -172,15 +176,17 @@ public abstract class BasePlayer : MonoBehaviour
             basicAttack.transform.SetParent(transform);
             basicAttack.transform.position = transform.position + (transform.forward.normalized *2f)+(Vector3.up/2);
 
+            Invoke("BasicAttack", 1f);
+
             playerAnimator.SetTrigger("isAttack");
         }
-
-        if (Input.GetKeyDown(KeyCode.Space)&& jumpCheck == false && instSkill == false)
+        if (Input.GetKeyDown(KeyCode.Space)&& jumpCheck == false && instSkill == false && collisionCheck==false)
         {
             jumpCheck = true;
-            effect = Pool.ObjectInstantiate(jumpEffect, transform.position, Quaternion.identity);
-            effect.transform.SetParent(transform);
+            effect[0] = Pool.ObjectInstantiate(jumpEffect, transform.position, Quaternion.identity);
+            effect[0].transform.SetParent(transform);
             ChageState(STATE.JUMP_STATE);
+            Invoke("JumpStart", 0.02f);
         }
         if(Input.GetKeyDown(KeyCode.X) && jumpCheck == false && isRun == false && instSkill == false && castCheck ==false)
         {
@@ -213,15 +219,14 @@ public abstract class BasePlayer : MonoBehaviour
     #region delgate method
     void BasicAttack()
     {
-        basicAttackChek = false;
         Pool.ObjectInstantiate(basicAttackPrefab, attackStartZone.position, attackStartZone.rotation);
         Pool.ObjectDestroy(basicAttack);
+        basicAttackChek = false;
     }
 
     void SkillEnd()
     {
        castCheck = false;
-        Pool.ObjectDestroy(effect);
     }
 
     void SkillStart()
@@ -231,14 +236,18 @@ public abstract class BasePlayer : MonoBehaviour
 
     void JumpStart()
     {
+        Debug.Log("점프 스타트");
         playerRb.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
     }
 
     void JumpEnd()
     {
-        jumpCheck = false;
-
+        Debug.Log("점프엔드");
+        
+        
         ChageState(STATE.MOVE_STATE);
+        collisionCheck = false;
+        jumpCheck = false;
     }
     #endregion
 
@@ -303,13 +312,14 @@ public abstract class BasePlayer : MonoBehaviour
 
     IEnumerator JUMP_STATE()
     {
-        float speed = 0;
-        playerAnimator.SetBool("isJump", true);
+      
+        playerCollider.material.dynamicFriction = 0;
+        playerAnimator.SetBool("isJump", true); 
         playerAnimator.SetBool("isMove", false);
         playerAnimator.SetTrigger("isJumpStart");
         playerAnimator.SetBool("isMove", false);
 
-        if(isRun)
+        if (isRun)
             playerSpeed = JumpRunSpeed;
         else
             playerSpeed = jumpSpeed;
@@ -327,6 +337,7 @@ public abstract class BasePlayer : MonoBehaviour
 
 
     public bool instSkill = false;
+    private bool collisionCheck = false;
 
     public abstract IEnumerator CAST_STATE();
     public abstract IEnumerator SKILL_STATE();
@@ -334,14 +345,22 @@ public abstract class BasePlayer : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (jumpCheck && collision.contacts[0].normal.y > 0.8f)
+
+        if (jumpCheck && collision.contacts[0].normal.y > 0.7f && collisionCheck == false)
         {
+            Debug.Log("콜리전");
+            effect[1] = Pool.ObjectInstantiate(jumpEffect, transform.position, Quaternion.identity);
+            effect[1].transform.SetParent(transform);
+            playerCollider.material.dynamicFriction = 10;
+            collisionCheck = true;
             playerSpeed = stopSpeed;
             playerAnimator.SetTrigger("isJumpEnd");
             playerAnimator.SetBool("isJump", false);
+
+            Invoke("JumpEnd", 0.5f);
         }
     }
 
-
+    
 }
 
