@@ -541,10 +541,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020136508359011637, guid: 8718822f553bf654e973d035061358d0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2020136509366821809, guid: 8718822f553bf654e973d035061358d0, type: 3}
       propertyPath: m_Name
       value: Room_Lab
@@ -592,10 +588,6 @@ PrefabInstance:
     - target: {fileID: 2020136509366821810, guid: 8718822f553bf654e973d035061358d0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2084636451545941895, guid: 8718822f553bf654e973d035061358d0, type: 3}
-      propertyPath: m_Material
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8718822f553bf654e973d035061358d0, type: 3}
@@ -952,7 +944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4389056476029205342, guid: 53c49b7c9af374d21a4fc4b3045f2bdf, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4764784721886884756, guid: 53c49b7c9af374d21a4fc4b3045f2bdf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
