@@ -4827,6 +4827,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyEffect: {fileID: 1180248314969840, guid: 3fbb3a142c10c0341a1b0c927eceae82, type: 3}
   speed: 2
+  dmamage: 5
 --- !u!136 &-4303546839635799250
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -63,6 +63,7 @@ public abstract class BasePlayer : MonoBehaviour
     private bool jumpCheck   = false;
     public  bool castCheck   = false;
     private bool basicAttackChek = false;
+    private bool collisionCheck = false;    
 
 
     //axis Value
@@ -145,8 +146,8 @@ public abstract class BasePlayer : MonoBehaviour
     protected virtual void GetAxisValue()
     {
         //Mouse Axis
-        mouseX += Input.GetAxis("Mouse X")*6;
-        mouseY += Input.GetAxis("Mouse Y")*2;
+        mouseX += Input.GetAxis("Mouse X")*0.5f;
+        mouseY += Input.GetAxis("Mouse Y") * 0.5f;
 
         //Keyboard Axis
         axisX = Input.GetAxis("Horizontal");
@@ -171,7 +172,7 @@ public abstract class BasePlayer : MonoBehaviour
             indicator.transform.position = transform.position;// + (transform.forward.normalized *1f)+(Vector3.up);
 
             playerAnimator.SetTrigger("isAttack");
-            Invoke("Inboke_BasicAttack", 1.1f);
+            Invoke("Invoke_BasicAttack", 1f);
 
         }
         if (Input.GetKeyDown(KeyCode.Space)&& jumpCheck == false && castCheck == false)
@@ -220,6 +221,7 @@ public abstract class BasePlayer : MonoBehaviour
     //Invoke metsod
     void Invoke_BasicAttack()
     {
+        Debug.Log("gd");
         basicAttackChek = false;
 
         if(indicator != null)
@@ -256,6 +258,7 @@ public abstract class BasePlayer : MonoBehaviour
         ChageState(STATE.MOVE_STATE);
         Pool.ObjectDestroy(jumpEffect);
         jumpCheck = false;
+        collisionCheck = false;
     }
     #endregion
 
@@ -348,6 +351,7 @@ public abstract class BasePlayer : MonoBehaviour
 
     public bool instSkill = false;
 
+
     public abstract IEnumerator CAST_STATE();
     public abstract IEnumerator SKILL_STATE();
    
@@ -355,11 +359,11 @@ public abstract class BasePlayer : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (jumpCheck && collision.contacts[0].normal.y > 0.7f)
+        if (jumpCheck && collision.contacts[0].normal.y > 0.7f&& collisionCheck==false)
         {
             jumpEffect = Pool.ObjectInstantiate(myEffectBox.jumpEffect, transform.position, Quaternion.identity);
             jumpEffect.transform.SetParent(transform);
-
+            collisionCheck = true;
             playerCollider.material.dynamicFriction = 10;
             playerSpeed = stopSpeed;
             playerAnimator.SetTrigger("isJumpEnd");

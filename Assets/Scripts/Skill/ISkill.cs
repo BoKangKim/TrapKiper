@@ -9,11 +9,13 @@ public abstract class ISkill : MonoBehaviour
     protected SkillManager sm     = null;
     protected BasePlayer player   = null;
     protected ParticleSystem[] particleEffect = null;
+    protected Collider collider = null;
 
     private void Awake()
     {
         myData = GetComponent<SkillData>();
         player = FindObjectOfType<BasePlayer>();
+        collider = GetComponent<Collider>();
 
         particleEffect = new ParticleSystem[myData.info.effect.Length];
 

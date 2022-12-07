@@ -21,9 +21,13 @@ public class FollowCamera : MonoBehaviour
         playerTr = GameManager.Inst.player.gameObject.transform;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         GetAxisValue();
+    }
+
+    private void Update()
+    {
 
         FollowCam();
 
@@ -33,8 +37,8 @@ public class FollowCamera : MonoBehaviour
     //Mouse Axis
     private void GetAxisValue()
     {
-        mouseX += Input.GetAxis("Mouse X") * 2;
-        mouseY += Input.GetAxis("Mouse Y") * 2;
+        mouseX += Input.GetAxis("Mouse X") *2.5f;
+        mouseY += Input.GetAxis("Mouse Y") *2.5f;
     }
     
     //Follow Cam

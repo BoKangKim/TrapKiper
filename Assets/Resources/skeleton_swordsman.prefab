@@ -706,6 +706,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lockIn: {fileID: 7822562366483347145}
   lockinBox: {fileID: 462371564233948295}
+  slider: {fileID: 698010859430557062}
 --- !u!114 &7251157923266557090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,8 +721,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info:
     name: skeleton Sword
-    maxHp: 0
+    maxHp: 10
     damage: 0
+    curHp: 0
 --- !u!1 &2121451272824431567
 GameObject:
   m_ObjectHideFlags: 0

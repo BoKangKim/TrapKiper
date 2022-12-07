@@ -28,7 +28,6 @@ public class MonsterSpawner : MonoBehaviour
                 yield break;
             }
 
-            instMonster.gameObject.name = count.ToString();
             GameManager.Inst.spawnMonsterList.Add(instMonster);
             if (count == monsterAmount)
                 yield break;

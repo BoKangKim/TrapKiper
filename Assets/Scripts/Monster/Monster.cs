@@ -30,8 +30,13 @@ public abstract class Monster : MonoBehaviour
             Debug.LogError("Root Node Is Null, Define Root Node");
         }
     }
-    
 
+    private void OnEnable()
+    {
+        slider.maxValue = monsterData.info.maxHp;
+        slider.value = monsterData.info.maxHp;
+        monsterData.info.curHp = monsterData.info.maxHp;
+    }
     private void Update()
     {
         root.Run();
@@ -45,23 +50,27 @@ public abstract class Monster : MonoBehaviour
         monsterAni = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         monsterData = GetComponent<MonsterData>();
-
-        slider.maxValue = monsterData.info.maxHp;
-        slider.value = monsterData.info.maxHp;
-        monsterData.info.curHp = monsterData.info.maxHp;
     }
+
+    
+
 
     protected abstract void RootNodeInit();
 
-    protected virtual void GetDamage()
-    {
-
-    }
- 
     public void PlayLockIn(bool check = true)
     {
         lockinBox.gameObject.SetActive(check);
     }
-  
 
+    public void TransferDamage(float damage)
+    {
+        monsterData.info.curHp -= damage;
+        slider.value = monsterData.info.curHp;
+
+        if (monsterData.info.curHp <= 0)
+        {
+            GameManager.Inst.spawnMonsterList.Remove(this);
+            Pool.ObjectDestroy(this.gameObject);
+        }
+    }
 }

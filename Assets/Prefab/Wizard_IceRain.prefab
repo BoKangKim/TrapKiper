@@ -24344,6 +24344,7 @@ GameObject:
   - component: {fileID: 108061256973128750}
   - component: {fileID: 6209379623563471811}
   - component: {fileID: 7642481613872162733}
+  - component: {fileID: 5259038822830656581}
   m_Layer: 0
   m_Name: Wizard_IceRain
   m_TagString: Untagged
@@ -29282,6 +29283,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b5c66dad02e90049a62b6b9c173f2d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &5259038822830656581
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658525510040468}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1911160501087848
 GameObject:
   m_ObjectHideFlags: 0
