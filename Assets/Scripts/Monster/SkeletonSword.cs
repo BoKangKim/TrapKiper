@@ -42,6 +42,7 @@ public class SkeletonSword : Monster
     {
         isAttack = true;
     }
+   
 
     private Func<bool> IsArrangeIn
     {
@@ -133,7 +134,6 @@ public class SkeletonSword : Monster
             };
         } 
     }
-
 
 
 

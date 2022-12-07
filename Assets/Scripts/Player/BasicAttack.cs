@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BasicAttack : MonoBehaviour
 {
     [SerializeField] private GameObject destroyEffect = null;
     [SerializeField] private float speed;
+    [SerializeField] private float dmamage;
 
     SkillManager sm = null;
     Monster targetMoster = null;
     private bool collisonCheck = false;
     private float distance  = 0;
     private Vector3 direction = Vector3.zero;
+
 
     private void Awake()
     {
@@ -23,6 +26,8 @@ public class BasicAttack : MonoBehaviour
     {
         if(FindTarget()!=null)
         targetMoster = FindTarget();
+
+        Debug.Log(targetMoster);
     }
 
     void FixedUpdate()
@@ -53,6 +58,8 @@ public class BasicAttack : MonoBehaviour
         {
             collisonCheck = true;
             StartCoroutine(PlayEffect());
+
+            if(targetMoster!=null)
             targetMoster.PlayLockIn(false);
         }
 

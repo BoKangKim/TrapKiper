@@ -21,15 +21,15 @@ public class MonsterSpawner : MonoBehaviour
         {
             yield return new WaitForSeconds(3f);
             count++;
-            Monster monster = null; 
+            Monster instMonster = null; 
             GameObject obj = Pool.ObjectInstantiate(monster.gameObject, transform.position, Quaternion.identity);
-            if(obj.TryGetComponent<Monster>(out monster) == false)
+            if(obj.TryGetComponent<Monster>(out instMonster) == false)
             {
-                monster.gameObject.name = count.ToString();
-                GameManager.Inst.spawnMonsterList.Add(monster);
                 yield break;
             }
 
+            instMonster.gameObject.name = count.ToString();
+            GameManager.Inst.spawnMonsterList.Add(instMonster);
             if (count == monsterAmount)
                 yield break;
         }

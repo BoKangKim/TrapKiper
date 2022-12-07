@@ -2,12 +2,17 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using static BehaviorTree.BehaviorTreeMan;
 
-[RequireComponent(typeof(Animator), typeof(NavMeshAgent))]
+[RequireComponent(typeof(Animator), typeof(NavMeshAgent),typeof(MonsterData))]
 public abstract class Monster : MonoBehaviour
 {
     [SerializeField] protected Canvas lockIn = null;
+    [SerializeField] private GameObject lockinBox = null;
+    [SerializeField] protected Slider slider = null;
+
+    protected MonsterData monsterData = null;
     protected Animator monsterAni = null;
     protected Wizard player = null;
     protected NavMeshAgent agent = null;
@@ -39,14 +44,23 @@ public abstract class Monster : MonoBehaviour
         player = FindObjectOfType<Wizard>();
         monsterAni = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        monsterData = GetComponent<MonsterData>();
+
+        slider.maxValue = monsterData.info.maxHp;
+        slider.value = monsterData.info.maxHp;
+        monsterData.info.curHp = monsterData.info.maxHp;
     }
 
     protected abstract void RootNodeInit();
 
+    protected virtual void GetDamage()
+    {
+
+    }
  
     public void PlayLockIn(bool check = true)
     {
-        lockIn.gameObject.SetActive(check);
+        lockinBox.gameObject.SetActive(check);
     }
   
 
