@@ -30,10 +30,21 @@ public class BasicAttack : MonoBehaviour
 
         if(targetMoster!=null)
         {
-            Debug.Log("¿òÁ÷¿©");
-            direction = targetMoster.transform.position - GameManager.Inst.player.transform.position;
+            direction = targetMoster.transform.position+Vector3.up - transform.position;
             transform.Translate(direction * Time.fixedDeltaTime * speed,Space.World);
+
+            if(Vector3.Distance(transform.position,targetMoster.transform.position)<0.5f)
+            {
+                StartCoroutine(PlayEffect());
+                targetMoster.PlayLockIn(false);
+            }
+
         }
+        else
+        {
+            transform.Translate(Vector3.forward*Time.fixedDeltaTime*speed*8);
+        }
+    
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -42,7 +53,9 @@ public class BasicAttack : MonoBehaviour
         {
             collisonCheck = true;
             StartCoroutine(PlayEffect());
+            targetMoster.PlayLockIn(false);
         }
+
     }
 
     private IEnumerator PlayEffect()
@@ -59,15 +72,14 @@ public class BasicAttack : MonoBehaviour
 
     private Monster FindTarget()
     {
-        Monster moster = null;
+        Monster monster = null;
 
         float dis    = 0;
         float minDis = 0;
-        Debug.Log(GameManager.Inst.spawnMonsterList.Count);
         if (GameManager.Inst.spawnMonsterList.Count == 0) return null;
 
         minDis = Vector3.Distance(GameManager.Inst.player.transform.position, GameManager.Inst.spawnMonsterList[0].transform.position);
-        moster = GameManager.Inst.spawnMonsterList[0];
+        monster = GameManager.Inst.spawnMonsterList[0];
 
         for (int i = 0; i < GameManager.Inst.spawnMonsterList.Count; i++)
         {
@@ -76,12 +88,13 @@ public class BasicAttack : MonoBehaviour
             if(dis<minDis)
             {
                 minDis = dis;
-                moster = GameManager.Inst.spawnMonsterList[i];
+                monster = GameManager.Inst.spawnMonsterList[i];
             }
            
         }
-        
-        return moster;
+        monster.PlayLockIn();
+
+        return monster;
     }
 
 

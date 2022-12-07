@@ -71,8 +71,8 @@ public class FollowCamera : MonoBehaviour
         {
             if (hit.transform.gameObject != this.gameObject&&playerTr.gameObject != hit.transform.gameObject)
             {
-                transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(0, 2f, hit.point.normalized.z+2),Time.fixedDeltaTime);
-                Camera.main.nearClipPlane = Mathf.Lerp(Camera.main.nearClipPlane, 3f, Time.fixedDeltaTime);
+                transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(0, 2f, hit.point.normalized.z),Time.fixedDeltaTime);
+                Camera.main.nearClipPlane = Mathf.Lerp(Camera.main.nearClipPlane, 3.5f, Time.fixedDeltaTime);
             }
 
             

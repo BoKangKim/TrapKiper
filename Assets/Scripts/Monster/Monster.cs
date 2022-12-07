@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using static BehaviorTree.BehaviorTreeMan;
@@ -6,6 +7,7 @@ using static BehaviorTree.BehaviorTreeMan;
 [RequireComponent(typeof(Animator), typeof(NavMeshAgent))]
 public abstract class Monster : MonoBehaviour
 {
+    [SerializeField] protected Canvas lockIn = null;
     protected Animator monsterAni = null;
     protected Wizard player = null;
     protected NavMeshAgent agent = null;
@@ -28,6 +30,8 @@ public abstract class Monster : MonoBehaviour
     private void Update()
     {
         root.Run();
+
+        lockIn.gameObject.transform.LookAt(player.transform.position);
     }
 
     protected virtual void Init()
@@ -38,5 +42,12 @@ public abstract class Monster : MonoBehaviour
     }
 
     protected abstract void RootNodeInit();
+
+ 
+    public void PlayLockIn(bool check = true)
+    {
+        lockIn.gameObject.SetActive(check);
+    }
+  
 
 }

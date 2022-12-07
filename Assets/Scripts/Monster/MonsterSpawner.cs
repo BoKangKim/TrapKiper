@@ -21,9 +21,14 @@ public class MonsterSpawner : MonoBehaviour
         {
             yield return new WaitForSeconds(3f);
             count++;
-            Monster moster = Pool.ObjectInstantiate(monster.gameObject, transform.position, Quaternion.identity).GetComponent<Monster>();
-            moster.gameObject.name = count.ToString();
-            GameManager.Inst.spawnMonsterList.Add(moster);
+            Monster monster = null; 
+            GameObject obj = Pool.ObjectInstantiate(monster.gameObject, transform.position, Quaternion.identity);
+            if(obj.TryGetComponent<Monster>(out monster) == false)
+            {
+                monster.gameObject.name = count.ToString();
+                GameManager.Inst.spawnMonsterList.Add(monster);
+                yield break;
+            }
 
             if (count == monsterAmount)
                 yield break;

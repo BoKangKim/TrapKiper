@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using BehaviorTree;
 using static BehaviorTree.BehaviorTreeMan;
-
+using System.Collections;
 
 public class SkeletonSword : Monster
 {
@@ -10,6 +10,7 @@ public class SkeletonSword : Monster
     {
         agent.isStopped = true;
         AttackArange = 1f;
+
     }
 
     protected override void RootNodeInit()
@@ -132,4 +133,8 @@ public class SkeletonSword : Monster
             };
         } 
     }
+
+
+
+
 }

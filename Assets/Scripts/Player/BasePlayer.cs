@@ -163,7 +163,6 @@ public abstract class BasePlayer : MonoBehaviour
             playerAnimator.SetBool("isRun", false);
             isRun = false;
         }
-        Debug.Log(curState);
         if (Input.GetMouseButtonDown(0) && instSkill == false && basicAttackChek == false)
         {
             basicAttackChek = true;

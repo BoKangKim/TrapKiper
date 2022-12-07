@@ -29,12 +29,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] public BasePlayer player = null;
 
     public List<Monster> spawnMonsterList = null;
-
+    public Monster targetMonster = null;
 
     private void Awake()
     {
         spawnMonsterList = new List<Monster>();
     }
 
+    private void Update()
+    {
+        if(targetMonster!=null)
+        Debug.Log(targetMonster.name);  
+    }
 
 }
