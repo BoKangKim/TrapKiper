@@ -188,6 +188,14 @@ public abstract class BasePlayer : MonoBehaviour
             castCheck = true;
             playerAnimator.SetTrigger("isSkill");
         }
+        if(Input.GetKeyDown(KeyCode.I) == true)
+        {
+            GameManager.Inst.GetTrapManager.StartPreView(0);
+        }
+        if(Input.GetKeyDown(KeyCode.O) == true)
+        {
+            GameManager.Inst.GetTrapManager.TrapCollocate();
+        }
 
     }
     protected virtual void PlayerRotation()

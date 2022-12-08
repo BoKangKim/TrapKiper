@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     #endregion // Singleton
     [SerializeField] private SkillManager skillManager = null;
     [SerializeField] private BasePlayer player = null;
+    [SerializeField] private TrapManager tm = null;
 
     private List<Monster> spawnMonsterList = null;
     private Monster targetMonster = null;
@@ -34,16 +35,24 @@ public class GameManager : MonoBehaviour
     public int GetMonsterCount { get { return spawnMonsterList.Count; }  private set { } }
     public BasePlayer GetPlayer { get { return player; } private set { } }
     public SkillManager GetSkillManager { get { return skillManager; } private set{} }
+    public TrapManager GetTrapManager { get { return tm; } private set { } }
 
     private void Awake()
     {
         spawnMonsterList = new List<Monster>();
     }
-
-    private void Update()
+   
+    public bool NullCheck<T>(ref T obj) where T : Component
     {
-        if(targetMonster!=null)
-        Debug.Log(targetMonster.name);  
+        if(obj != null)
+        {
+            return false;
+        }
+        else
+        {
+            obj = new GameObject(typeof(T).Name).AddComponent<T>();
+            return true;
+        }
     }
 
     #region Monster List Control
@@ -67,7 +76,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            monster = spawnMonsterList[spawnMonsterList.Count - 1];
+            monster = null;
             return false;
         }
     }
