@@ -69,7 +69,7 @@ public abstract class Monster : MonoBehaviour
 
         if (monsterData.info.curHp <= 0)
         {
-            GameManager.Inst.spawnMonsterList.Remove(this);
+            GameManager.Inst.RemoveMonster(this);
             Pool.ObjectDestroy(this.gameObject);
         }
     }

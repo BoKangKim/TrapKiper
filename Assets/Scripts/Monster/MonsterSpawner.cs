@@ -28,7 +28,7 @@ public class MonsterSpawner : MonoBehaviour
                 yield break;
             }
 
-            GameManager.Inst.spawnMonsterList.Add(instMonster);
+            GameManager.Inst.AddMonster(instMonster);
             if (count == monsterAmount)
                 yield break;
         }

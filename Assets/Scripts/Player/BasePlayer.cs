@@ -317,10 +317,6 @@ public abstract class BasePlayer : MonoBehaviour
 
             yield return null;
         }
-
-
-
-
     }
 
     IEnumerator JUMP_STATE()

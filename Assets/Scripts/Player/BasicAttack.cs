@@ -9,23 +9,26 @@ public class BasicAttack : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float dmamage;
 
-    SkillManager sm = null;
     Monster targetMoster = null;
     private bool collisonCheck = false;
     private Vector3 direction = Vector3.zero;
 
     private void Awake()
     {
-        sm = GameManager.Inst.skillManager;
-        this.gameObject.transform.SetParent(sm.BOX.transform);
+        this.gameObject.transform.SetParent(GameManager.Inst.GetSkillManager.BOX.transform);
     }
 
     private void OnEnable()
     {
-        targetMoster = null;
+        if ((targetMoster = FindTarget()) == null)
+            return;
+    }
 
-        if (FindTarget()!=null)
-        targetMoster = FindTarget();
+    private void OnDisable()
+    {
+        targetMoster = null;
+        collisonCheck = false;
+        direction = Vector3.zero;
     }
 
     void FixedUpdate()
@@ -51,29 +54,40 @@ public class BasicAttack : MonoBehaviour
     //find target
     private Monster FindTarget()
     {
-        Monster monster = null;
-
-        float dis    = 0;
+        int count = 0;
+        int index = 0;
+        float dis = 0;
         float minDis = 0;
-        if (GameManager.Inst.spawnMonsterList.Count == 0)
+
+        Monster monster = null;
+        
+        if(GameManager.Inst.GetPlayer == null)
         {
-            monster = null;
+            return monster;
+        }
+        if(GameManager.Inst.TryGetMonster(0,out monster) == false)
+        {
             return monster;
         }
 
-        minDis = Vector3.Distance(GameManager.Inst.player.transform.position, GameManager.Inst.spawnMonsterList[0].transform.position);
-        monster = GameManager.Inst.spawnMonsterList[0];
 
-        for (int i = 0; i < GameManager.Inst.spawnMonsterList.Count; i++)
+        minDis = Vector3.Distance(GameManager.Inst.GetPlayer.transform.position, monster.transform.position);
+
+        while (GameManager.Inst.TryGetMonster(count ,out monster) == true) 
         {
-            dis = Vector3.Distance(GameManager.Inst.player.transform.position, GameManager.Inst.spawnMonsterList[i].transform.position);
+            dis = Vector3.Distance(GameManager.Inst.GetPlayer.transform.position, monster.transform.position);
 
-            if(dis<minDis)
+            if (dis < minDis)
             {
+                index = count;
                 minDis = dis;
-                monster = GameManager.Inst.spawnMonsterList[i];
             }
+
+            count++;
         }
+
+        GameManager.Inst.TryGetMonster(index,out monster);
+
         monster.PlayLockIn();
         return monster;
     }
@@ -83,7 +97,7 @@ public class BasicAttack : MonoBehaviour
     {
         GameObject effect =
         Pool.ObjectInstantiate(destroyEffect, transform.position, Quaternion.identity);
-        effect.transform.SetParent(sm.BOX.transform);
+        effect.transform.SetParent(GameManager.Inst.GetSkillManager.BOX.transform);
 
         yield return new WaitForSeconds(0.3f);
 

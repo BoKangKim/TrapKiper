@@ -6,7 +6,6 @@ public class Wizard : BasePlayer
 {
     public override IEnumerator CAST_STATE()
     {
-        
         Pool.ObjectInstantiate(gainSkills[0].gameObject,transform.position,Quaternion.identity);
         GameObject sillIndicator= Pool.ObjectInstantiate(myEffectBox.skillIndicator, transform.position, Quaternion.identity);
         sillIndicator.transform.position = transform.position + (transform.forward.normalized * 5);
@@ -36,9 +35,6 @@ public class Wizard : BasePlayer
             yield return null;
         }
     }
-
-
-
 
     public override IEnumerator SKILL_STATE()
     {

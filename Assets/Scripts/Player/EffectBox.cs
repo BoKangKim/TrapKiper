@@ -6,15 +6,16 @@ using UnityEngine;
 public class EffectBox : ScriptableObject
 {
     [Header("[PLAYER]========")]
-    [SerializeField] public GameObject jumpEffect = null;
+    public GameObject jumpEffect = null;
+
     [Header("[Nomal_Attack]========")]
-    [SerializeField] public GameObject basicAttackPrefab = null;
-    [SerializeField] public GameObject basicAttackIndicator = null;
+    public GameObject basicAttackPrefab = null;
+    public GameObject basicAttackIndicator = null;
 
     [Header("[Skill_Effect]========")]
-    [SerializeField] public GameObject drainEffect = null;
-    [SerializeField] public GameObject FogEffect   = null;
-    [SerializeField] public GameObject skillIndicator = null;
+    public GameObject drainEffect = null;
+    public GameObject FogEffect   = null;
+    public GameObject skillIndicator = null;
 
 
 
