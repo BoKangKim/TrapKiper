@@ -28,7 +28,7 @@ public abstract class BasePlayer : MonoBehaviour
     [SerializeField] public Transform attackStartZone        = null;
     [SerializeField] protected SkillData[] gainSkills        = null;
 
-    protected EffectBox myEffectBox = null;
+    protected PlayerEffect myEffectBox = null;
     private GameObject indicator = null;
     private GameObject jumpEffect = null;
 
@@ -113,7 +113,7 @@ public abstract class BasePlayer : MonoBehaviour
         playerRb       = GetComponent<Rigidbody>();
         cameraArmTr    = FindObjectOfType<FollowCamera>().transform;
         mainCamera     = FindObjectOfType<FollowCamera>();
-        myEffectBox = Resources.Load<EffectBox>("EffectBox");
+        myEffectBox = Resources.Load<PlayerEffect>("ScriptableObject/" + "PlayerEffectContainer");
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
@@ -169,7 +169,7 @@ public abstract class BasePlayer : MonoBehaviour
             basicAttackChek = true;
             indicator = Pool.ObjectInstantiate(myEffectBox.basicAttackIndicator, attackStartZone.position, transform.rotation);
             indicator.transform.SetParent(transform);
-            indicator.transform.position = transform.position;// + (transform.forward.normalized *1f)+(Vector3.up);
+            indicator.transform.position = transform.position;
 
             playerAnimator.SetTrigger("isAttack");
             Invoke("Invoke_BasicAttack", 1f);
@@ -177,7 +177,6 @@ public abstract class BasePlayer : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space)&& jumpCheck == false && castCheck == false)
         {
-            Debug.Log("input space");
             jumpCheck = true;
 
             ChageState(STATE.JUMP_STATE);

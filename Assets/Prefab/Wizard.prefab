@@ -401,13 +401,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ee7f727e18076e47b3b406233e5da7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvars: {fileID: 0}
   attackStartZone: {fileID: 8739188108198666865}
-  basicAttackPrefab: {fileID: 1242912157399330, guid: 4e8f279679818524795e8313c393b58d, type: 3}
-  basicAttackIndicator: {fileID: 1048394385358214, guid: 29557d19c83522d43b35b476d8a0d982, type: 3}
-  jumpEffect: {fileID: 1698068915230344, guid: eb54ab5e189da8241a3ebb7ad29b6b32, type: 3}
   gainSkills:
-  - {fileID: 427579776752824683, guid: 1acef02b08a049e4892d2976a290e73c, type: 3}
   - {fileID: 6209379623563471811, guid: ce22cfb4b3b4ac04eb52aa2a2350d370, type: 3}
   playerSpeed: 5
   runSpeed: 15

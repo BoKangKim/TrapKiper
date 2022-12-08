@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04f41a38a702011438b00c1c5724bcca, type: 3}
-  m_Name: EffectBox
+  m_Name: PlayerEffectContainer
   m_EditorClassIdentifier: 
   jumpEffect: {fileID: 1698068915230344, guid: eb54ab5e189da8241a3ebb7ad29b6b32, type: 3}
   basicAttackPrefab: {fileID: 1242912157399330, guid: 4e8f279679818524795e8313c393b58d, type: 3}

@@ -43,7 +43,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 1
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -4925,7 +4925,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 1
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -9758,7 +9758,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 1
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -14658,7 +14658,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 1
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -19491,7 +19491,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 1
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -24351,7 +24351,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4175782047867432
 Transform:
   m_ObjectHideFlags: 0
@@ -24383,7 +24383,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 3
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 1
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -24943,7 +24943,7 @@ ParticleSystem:
     randomizeRotationDirection: 0
     maxNumParticles: 1000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
-    size3D: 1
+    size3D: 0
     rotation3D: 1
     gravityModifier:
       serializedVersion: 2
@@ -29265,8 +29265,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info:
     name: 
-    effect:
-    - {fileID: 1658525510040468}
+    addEffect:
+    - {fileID: 1231247210357622, guid: 609acb70527427e41909704febe28abb, type: 3}
+    - {fileID: 1609107109629186, guid: 1acef02b08a049e4892d2976a290e73c, type: 3}
     playTime: 5
     skillRange: 5
     sound: {fileID: 0}
@@ -29339,7 +29340,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 1
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}

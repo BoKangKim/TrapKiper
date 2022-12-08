@@ -269,8 +269,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillManager: {fileID: 1199347984}
   player: {fileID: 8452664679745953970}
-  spawnMonsterList: []
-  targetMonster: {fileID: 0}
 --- !u!1 &956994182
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,7 +463,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skills:
-  - {fileID: 427579776752824683, guid: 1acef02b08a049e4892d2976a290e73c, type: 3}
   - {fileID: 6209379623563471811, guid: ce22cfb4b3b4ac04eb52aa2a2350d370, type: 3}
 --- !u!1001 &395156146754848299
 PrefabInstance:

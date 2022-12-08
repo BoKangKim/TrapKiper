@@ -8,22 +8,15 @@ public abstract class ISkill : MonoBehaviour
     protected SkillData myData    = null;
     protected SkillManager sm     = null;
     protected BasePlayer player   = null;
-    protected ParticleSystem[] particleEffect = null;
-    protected Collider collider = null;
+    protected Collider myCollider   = null;
+    protected ParticleSystem effect = null;
 
     private void Awake()
     {
         myData = GetComponent<SkillData>();
+        effect = this.gameObject.GetComponent<ParticleSystem>();
         player = FindObjectOfType<BasePlayer>();
-        collider = GetComponent<Collider>();
-
-        particleEffect = new ParticleSystem[myData.info.effect.Length];
-
-        for (int i = 0; i < myData.info.effect.Length; i++)
-        {
-            particleEffect[i] = myData.info.effect[i].GetComponent<ParticleSystem>();
-        }
-
+        myCollider = GetComponent<Collider>();
 
         if (sm == null)
         {
@@ -35,6 +28,7 @@ public abstract class ISkill : MonoBehaviour
                 return;
             }
         }
+        this.gameObject.transform.SetParent(sm.transform);
     }
 
     public void ActiveSkill()
@@ -47,5 +41,8 @@ public abstract class ISkill : MonoBehaviour
         StopCoroutine(PlaySkill());
     }
 
-    protected abstract IEnumerator PlaySkill(); 
+    protected abstract IEnumerator PlaySkill();
+
+    protected abstract IEnumerator CastSkill();
+
 }

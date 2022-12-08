@@ -6,16 +6,10 @@ public class Wizard : BasePlayer
 {
     public override IEnumerator CAST_STATE()
     {
-        Pool.ObjectInstantiate(gainSkills[0].gameObject,transform.position,Quaternion.identity);
-        GameObject sillIndicator= Pool.ObjectInstantiate(myEffectBox.skillIndicator, transform.position, Quaternion.identity);
-        sillIndicator.transform.position = transform.position + (transform.forward.normalized * 5);
-        //GameObject drainEffect = Pool.ObjectInstantiate(myEffectBox.drainEffect, transform.position, Quaternion.identity);
-        //drainEffect.transform.position = transform.position + (transform.up.normalized);
+        Pool.ObjectInstantiate(gainSkills[0].gameObject, transform.position, Quaternion.identity);
 
         StartCoroutine(ChangeIdle());
         yield return new WaitUntil(() => !castCheck);
-        Pool.ObjectDestroy(sillIndicator);
-        //Pool.ObjectDestroy(drainEffect);
 
         ChageState(STATE.SKILL_STATE);
         yield break;
@@ -39,8 +33,8 @@ public class Wizard : BasePlayer
     public override IEnumerator SKILL_STATE()
     {
         instSkill = true;
-        Pool.ObjectInstantiate(gainSkills[1].gameObject, transform.position, Quaternion.identity);
-        instSkill = false;
+
+        yield return new WaitUntil(()=> !instSkill);
 
         ChageState(STATE.MOVE_STATE);
         yield break;

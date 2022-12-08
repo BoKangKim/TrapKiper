@@ -37,8 +37,9 @@ public class FollowCamera : MonoBehaviour
     //Mouse Axis
     private void GetAxisValue()
     {
-        mouseX += Input.GetAxis("Mouse X") *2.5f;
-        mouseY += Input.GetAxis("Mouse Y") *2.5f;
+        if (GameManager.Inst.GetPlayer.castCheck) return;
+        mouseX += Input.GetAxis("Mouse X") *3f;
+        mouseY += Input.GetAxis("Mouse Y") *3f;
     }
     
     //Follow Cam
@@ -78,8 +79,6 @@ public class FollowCamera : MonoBehaviour
                 transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(0, 2f, hit.point.normalized.z),Time.fixedDeltaTime);
                 Camera.main.nearClipPlane = Mathf.Lerp(Camera.main.nearClipPlane, 3.5f, Time.fixedDeltaTime);
             }
-
-            
         }
 
     }

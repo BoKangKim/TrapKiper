@@ -118,11 +118,7 @@ public class BasicAttack : MonoBehaviour
 
             if (targetMoster != null)
                 targetMoster.PlayLockIn(false);
-
-
-
         }
-
     }
 
 }
