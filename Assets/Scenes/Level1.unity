@@ -270,6 +270,7 @@ MonoBehaviour:
   skillManager: {fileID: 1199347984}
   player: {fileID: 8452664679745953970}
   spawnMonsterList: []
+  targetMonster: {fileID: 0}
 --- !u!1 &956994182
 GameObject:
   m_ObjectHideFlags: 0

@@ -59,7 +59,7 @@ public abstract class Monster : MonoBehaviour
 
     public void PlayLockIn(bool check = true)
     {
-        lockinBox.gameObject.SetActive(check);
+        lockinBox.gameObject.SetActive(check);  
     }
 
     public void TransferDamage(float damage)
