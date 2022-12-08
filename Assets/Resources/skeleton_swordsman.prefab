@@ -724,6 +724,7 @@ MonoBehaviour:
     maxHp: 10
     damage: 0
     curHp: 0
+    randomSkill: {fileID: 1035084944221040, guid: 90961eba8d1c3414f93fba7cb23fa78a, type: 3}
 --- !u!1 &2121451272824431567
 GameObject:
   m_ObjectHideFlags: 0

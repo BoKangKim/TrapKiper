@@ -11,7 +11,7 @@ public class MonsterData : MonoBehaviour
         public float maxHp;
         public float damage;
         public float curHp;
-
+        public GameObject randomSkill;
     }
     [SerializeField] public Info info;
 }
