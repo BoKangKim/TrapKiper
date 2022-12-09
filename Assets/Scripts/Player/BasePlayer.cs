@@ -25,8 +25,8 @@ public abstract class BasePlayer : MonoBehaviour
 
     //Attack & Skill Set
     [Header("Attack Info")]
-    [SerializeField] public Transform attackStartZone        = null;
-    [SerializeField] protected SkillData[] gainSkills        = null;
+    public Transform attackStartZone        = null;
+    private List<SkillData> gainSkills      = null;
 
     protected PlayerEffect myEffectBox = null;
     private GameObject indicator = null;
@@ -36,7 +36,6 @@ public abstract class BasePlayer : MonoBehaviour
     protected Animator playerAnimator = null;
     private Transform playerTr      = null;
     private Rigidbody playerRb      = null;
-    private Collider playerCollider = null;
 
     //Player Speed Value
     [Header("Player Stat Value")]
@@ -57,14 +56,16 @@ public abstract class BasePlayer : MonoBehaviour
     private Vector3 lookForward = Vector3.zero;
     private Vector3 lookRight   = Vector3.zero;
     private Vector3 moveDir     = Vector3.zero;
+    private Vector3 jumpPos     = Vector3.zero;
 
     //Check Value
     private bool isRun       = false;
     private bool jumpCheck   = false;
     public  bool castCheck   = false;
     private bool basicAttackChek = false;
-    private bool collisionCheck = false;    
-
+    private bool collisionCheck = false;
+    private bool downCheck = false;
+    public bool instSkill = false;
 
     //axis Value
     private float mouseX = 0;
@@ -109,11 +110,11 @@ public abstract class BasePlayer : MonoBehaviour
     {
         playerAnimator = GetComponent<Animator>();
         playerTr       = GetComponent<Transform>();
-        playerCollider = GetComponent<Collider>();
         playerRb       = GetComponent<Rigidbody>();
         cameraArmTr    = FindObjectOfType<FollowCamera>().transform;
         mainCamera     = FindObjectOfType<FollowCamera>();
         myEffectBox = Resources.Load<PlayerEffect>("ScriptableObject/" + "PlayerEffectContainer");
+        gainSkills = new List<SkillData>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
@@ -164,7 +165,7 @@ public abstract class BasePlayer : MonoBehaviour
             playerAnimator.SetBool("isRun", false);
             isRun = false;
         }
-        if (Input.GetMouseButtonDown(0) && instSkill == false && basicAttackChek == false)
+        if (Input.GetMouseButtonDown(0) && instSkill == false && basicAttackChek == false && castCheck == false )
         {
             basicAttackChek = true;
             indicator = Pool.ObjectInstantiate(myEffectBox.basicAttackIndicator, attackStartZone.position, transform.rotation);
@@ -178,13 +179,13 @@ public abstract class BasePlayer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)&& jumpCheck == false && castCheck == false)
         {
             jumpCheck = true;
+            StartCoroutine(DownCheck());
 
             ChageState(STATE.JUMP_STATE);
             Invoke("JumpStart", 0.05f);
         }
-        if(Input.GetKeyDown(KeyCode.X) && jumpCheck == false && isRun == false && instSkill == false && castCheck ==false)
+        if(Input.GetKeyDown(KeyCode.X) && jumpCheck == false && isRun == false && instSkill == false && castCheck ==false&& gainSkills.Count >0)
         {
-           
             castCheck = true;
             playerAnimator.SetTrigger("isSkill");
         }
@@ -198,6 +199,24 @@ public abstract class BasePlayer : MonoBehaviour
         }
 
     }
+
+    private IEnumerator DownCheck()
+    {
+        while(true)
+        {
+            jumpPos = transform.position;
+            yield return new WaitForSeconds(0.1f);
+
+            if (transform.position.y < jumpPos.y)
+            {
+                playerRb.AddForce(Vector3.down * (jumpPower*0.3f), ForceMode.VelocityChange);
+                downCheck = true;
+                yield break;
+            }
+            downCheck = false;
+        }
+    }
+
     protected virtual void PlayerRotation()
     {
         playerTr.rotation = Quaternion.Euler(0, mainCamera.mouseX,0);
@@ -226,15 +245,15 @@ public abstract class BasePlayer : MonoBehaviour
     #endregion
 
     //Invoke metsod
+    #region Invoke metsod
     void Invoke_BasicAttack()
     {
-        Debug.Log("gd");
-        basicAttackChek = false;
+            basicAttackChek = false;
 
         if(indicator != null)
             Pool.ObjectDestroy(indicator);
-
     }
+    #endregion
 
     //delgate method
     #region delgate method
@@ -270,12 +289,13 @@ public abstract class BasePlayer : MonoBehaviour
     #endregion
 
     //Coroutine state machine
+    #region Coroutine state machine
     protected void ChageState(STATE newState)
     {
         if (newState == curState) return;
 
         if(stateCoroutine!=null)
-            StopAllCoroutines();
+            StopCoroutine(stateCoroutine);
 
         curState = newState;
 
@@ -329,7 +349,7 @@ public abstract class BasePlayer : MonoBehaviour
     IEnumerator JUMP_STATE()
     {
       
-        playerCollider.material.dynamicFriction = 0;
+        playerRb.drag = 0;
         playerAnimator.SetBool("isJump", true); 
         playerAnimator.SetBool("isMove", false);
         playerAnimator.SetTrigger("isJumpStart");
@@ -351,23 +371,49 @@ public abstract class BasePlayer : MonoBehaviour
         }
     }
 
-
-    public bool instSkill = false;
-
-
     public abstract IEnumerator CAST_STATE();
     public abstract IEnumerator SKILL_STATE();
-   
+    #endregion
+
+    //Skill Inst Mesod
+    protected virtual void InstSkill(int index)
+    {
+        if (gainSkills[index] != null)
+            Pool.ObjectInstantiate(gainSkills[index].gameObject, transform.position, Quaternion.identity);
+        else Debug.Log("you dont nave skill");
+
+    }
+    public void AddGainSkillList(SkillData getSkill)
+    {
+        if(gainSkills.Count>0)
+        {
+            for (int i = 0; i < gainSkills.Count; i++)
+            {
+                if (gainSkills[i] != getSkill)
+                {
+                    gainSkills.Add(getSkill);
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+        gainSkills.Add(getSkill);   
+
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (jumpCheck && collision.contacts[0].normal.y > 0.7f&& collisionCheck==false)
+        if (downCheck&& jumpCheck && collision.contacts[0].normal.y > 0.7f&& collisionCheck==false)
         {
+            downCheck = false;
             jumpEffect = Pool.ObjectInstantiate(myEffectBox.jumpEffect, transform.position, Quaternion.identity);
             jumpEffect.transform.SetParent(transform);
             collisionCheck = true;
-            playerCollider.material.dynamicFriction = 10;
+            playerRb.drag = 10;
             playerSpeed = stopSpeed;
             playerAnimator.SetTrigger("isJumpEnd");
             playerAnimator.SetBool("isJump", false);

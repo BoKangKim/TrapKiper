@@ -6,7 +6,7 @@ public class Wizard : BasePlayer
 {
     public override IEnumerator CAST_STATE()
     {
-        Pool.ObjectInstantiate(gainSkills[0].gameObject, transform.position, Quaternion.identity);
+        InstSkill(0);
 
         StartCoroutine(ChangeIdle());
         yield return new WaitUntil(() => !castCheck);

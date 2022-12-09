@@ -33,4 +33,12 @@ public class SkillManager : MonoBehaviour
     {
         return skills.Count;
     }
+
+    public SkillData GetSkill(int index)
+    {
+        if (index > skills.Count - 1) return null;
+        return skills[index];
+    }
+
+
 }

@@ -6,6 +6,11 @@ public class TestTrap : BaseTrap
 {
     private bool wait = false;
     private float time = 0f;
+    private void OnDisable()
+    {
+        time = 0;
+    }
+
     protected override bool ActiveCondition()
     {
         time += Time.deltaTime;

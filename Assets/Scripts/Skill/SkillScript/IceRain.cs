@@ -16,12 +16,6 @@ public class IceRain : ISkill
         StartCoroutine(PlaySkill());
     }
 
-    private void FixedUpdate()
-    {
-        if (skillIndicator.transform.position.y>0)
-            skillIndicator.transform.Translate(0, -1.5f * Time.fixedDeltaTime, 0, Space.World);
-    }
-
     private void OnDisable()
     {
         for (int i = 0; i < hitMonster.Count; i++)
@@ -40,8 +34,7 @@ public class IceRain : ISkill
         skillIndicator.transform.SetParent(sm.transform);
 
         //Position Change
-        skillIndicator.transform.position = player.transform.position +
-            (player.transform.forward.normalized * myData.info.skillRange) + (Vector3.up * 2);
+        IndicatorRotation(skillIndicator.transform);
 
         //Inst& start CastSkill
         StartCoroutine(CastSkill());
@@ -95,7 +88,32 @@ public class IceRain : ISkill
 
         Pool.ObjectDestroy(skillCast);
         yield break;
+    }   
+
+    private void IndicatorRotation(Transform targetTr)
+    {
+        RaycastHit hitinfo;
+        Vector3 startVec = GameManager.Inst.GetPlayer.transform.position + (Vector3.up * 1.5f) + 
+            (GameManager.Inst.GetPlayer.transform.forward * myData.info.skillRange);
+        Vector3 y = new Vector3(0, -5f, 0f);
+        Vector3 dirVec = ((startVec + y) - startVec).normalized;
+
+        Debug.DrawRay(startVec, dirVec * 5, Color.red);
+
+        if (Physics.Raycast(startVec, dirVec, out hitinfo, Mathf.Infinity))
+        {
+            targetTr.position = hitinfo.point + (Vector3.up * 0.2f);
+            targetTr.rotation = Quaternion.LookRotation(hitinfo.normal);
+            targetTr.Rotate(-90, 0, 0);
+            this.transform.rotation= Quaternion.LookRotation(-hitinfo.normal);
+            this.transform.Rotate(-90, 0, 0);
+            this.transform.position += Vector3.up;
+            
+
+        }
     }
+
+
 
     private void OnTriggerEnter(Collider other)
     {
