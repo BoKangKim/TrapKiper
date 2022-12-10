@@ -645,19 +645,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6248797537366759568, guid: 8718822f553bf654e973d035061358d0, type: 3}
-      propertyPath: monster
-      value: 
-      objectReference: {fileID: 6022445003238395429, guid: bdc0a0d6a16f9294f9cc1e456edfdb7c, type: 3}
-    - target: {fileID: 6248797537366759568, guid: 8718822f553bf654e973d035061358d0, type: 3}
-      propertyPath: mosterAmount
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6248797537366759568, guid: 8718822f553bf654e973d035061358d0, type: 3}
       propertyPath: monsterAmount
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6319593083739904937, guid: 8718822f553bf654e973d035061358d0, type: 3}
-      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

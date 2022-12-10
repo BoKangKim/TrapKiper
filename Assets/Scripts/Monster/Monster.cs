@@ -19,6 +19,7 @@ public abstract class Monster : MonoBehaviour
     protected NavMeshAgent agent = null;
     protected BehaviorTree.INode root = null;
     protected bool isAttack = false;
+    protected bool spawnMotion = false;
     public float AttackArange { get; protected set; }
 
     private void Awake()

@@ -10,7 +10,6 @@ public class SkeletonSword : Monster
     {
         agent.isStopped = true;
         AttackArange = 1f;
-        
     }
 
     protected override void RootNodeInit()

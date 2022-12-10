@@ -5,6 +5,7 @@ using UnityEngine;
 public class MonsterSpawner : MonoBehaviour
 {
     [SerializeField] private Monster monster = null;
+    [SerializeField] private Monster bossMonster = null;
     [SerializeField] private int monsterAmount = 0;
 
     private void Start()
@@ -29,8 +30,18 @@ public class MonsterSpawner : MonoBehaviour
             }
 
             GameManager.Inst.AddMonster(instMonster);
+
             if (count == monsterAmount)
+            {
+                GameObject boss = Pool.ObjectInstantiate(bossMonster.gameObject, transform.position, bossMonster.gameObject.transform.rotation = Quaternion.Euler(0,90,0));
+                if (boss.TryGetComponent<Monster>(out instMonster) == false)
+                {
+                    yield break;
+                }
+                GameManager.Inst.AddMonster(instMonster);
+
                 yield break;
+            }
         }
 
     }
