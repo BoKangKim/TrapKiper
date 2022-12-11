@@ -9,7 +9,11 @@ public class GetObject : MonoBehaviour
     {
         if (other.gameObject == GameManager.Inst.GetPlayer.gameObject)
         {
-            GameManager.Inst.GetPlayer.AddGainSkillList(GameManager.Inst.GetSkillManager.GetSkill(0));
+            int random = Random.Range(0, GameManager.Inst.GetSkillManager.GetSkillCount());
+
+            Debug.Log(GameManager.Inst.GetSkillManager.GetSkill(random).name);
+
+            GameManager.Inst.GetPlayer.AddGainSkillList(GameManager.Inst.GetSkillManager.GetSkill(random));
 
             Pool.ObjectDestroy(this.gameObject);
         }

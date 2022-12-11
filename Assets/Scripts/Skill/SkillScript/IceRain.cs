@@ -32,6 +32,8 @@ public class IceRain : ISkill
         //Inst Indicator
         skillIndicator = Pool.ObjectInstantiate(myData.info.addEffect[0], transform.position, Quaternion.identity);
         skillIndicator.transform.SetParent(sm.transform);
+        skillIndicator.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+
 
         //Position Change
         IndicatorRotation(skillIndicator.transform);
@@ -122,7 +124,7 @@ public class IceRain : ISkill
         if (other.gameObject.TryGetComponent<Monster>(out monster))
         {
             monster.PlayLockIn();
-            monster.TransferDamage(1);
+            monster.TransferDamage(myData.info.damage);
 
             hitMonster.Add(monster);
         }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1904985354383840453}
   - component: {fileID: 5698782453484082234}
   m_Layer: 0
-  m_Name: Wizard_Skill_Indicator
+  m_Name: Wizard_IceRain_Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

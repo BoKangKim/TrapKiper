@@ -511,6 +511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skills:
+  - {fileID: 6209379623563471811, guid: ce22cfb4b3b4ac04eb52aa2a2350d370, type: 3}
   - {fileID: -6892683705152199009, guid: cfee882216422ff4eb5822d9d5ff17e6, type: 3}
 --- !u!1001 &395156146754848299
 PrefabInstance:

@@ -12,7 +12,7 @@ public class FallenSword : ISkill
     {
         this.transform.position = player.transform.position + 
             (player.transform.forward.normalized * myData.info.skillRange);
-
+       
         StartCoroutine(PlaySkill());
     }
 
@@ -25,6 +25,7 @@ public class FallenSword : ISkill
         }
         hitMonster.Clear();
         myCollider.enabled = false;
+        
     }
     
     protected override IEnumerator PlaySkill()
@@ -97,7 +98,7 @@ public class FallenSword : ISkill
 
         if (Physics.Raycast(startVec, dirVec, out hitinfo, Mathf.Infinity))
         {
-            targetTr.position = hitinfo.point + (Vector3.up * 0.2f);
+            targetTr.position = hitinfo.point + (Vector3.up * 0.4f);
             targetTr.rotation = Quaternion.LookRotation(hitinfo.normal);
             targetTr.Rotate(-90, 0, 0);
 

@@ -29270,6 +29270,7 @@ MonoBehaviour:
     - {fileID: 1609107109629186, guid: 1acef02b08a049e4892d2976a290e73c, type: 3}
     playTime: 5
     skillRange: 2
+    damage: 2
     sound: {fileID: 0}
     isPlaying: 0
 --- !u!114 &7642481613872162733

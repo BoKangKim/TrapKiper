@@ -26,7 +26,8 @@ public abstract class BasePlayer : MonoBehaviour
     //Attack & Skill Set
     [Header("Attack Info")]
     public Transform attackStartZone        = null;
-    private List<SkillData> gainSkills      = null;
+    //private List<SkillData> gainSkills      = null;
+    private SkillData gainSkill = null;
 
     protected PlayerEffect myEffectBox = null;
     private GameObject indicator = null;
@@ -119,7 +120,7 @@ public abstract class BasePlayer : MonoBehaviour
         playerCollider = GetComponent<Collider>();
         playerData = GetComponent<PlayerData>();
         myEffectBox = Resources.Load<PlayerEffect>("ScriptableObject/" + "PlayerEffectContainer");
-        gainSkills = new List<SkillData>();
+        //gainSkills = new List<SkillData>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
@@ -189,7 +190,7 @@ public abstract class BasePlayer : MonoBehaviour
             ChageState(STATE.JUMP_STATE);
             Invoke("JumpStart", 0.05f);
         }
-        if(Input.GetKeyDown(KeyCode.X) && jumpCheck == false && isRun == false && instSkill == false && castCheck ==false&& gainSkills.Count >0)
+        if(Input.GetKeyDown(KeyCode.X) && jumpCheck == false && isRun == false && instSkill == false && castCheck ==false&& gainSkill!=null)
         {
             castCheck = true;
             playerAnimator.SetTrigger("isSkill");
@@ -382,30 +383,36 @@ public abstract class BasePlayer : MonoBehaviour
     //Skill Inst Mesod
     protected virtual void InstSkill(int index)
     {
-        if (gainSkills[index] != null)
-            Pool.ObjectInstantiate(gainSkills[index].gameObject, transform.position, Quaternion.identity);
+        if (gainSkill != null)
+            Pool.ObjectInstantiate(gainSkill.gameObject, transform.position, Quaternion.identity);
         else Debug.Log("you dont nave skill");
 
+        //if (gainSkills[index] != null)
+        //    Pool.ObjectInstantiate(gainSkills[index].gameObject, transform.position, Quaternion.identity);
+        //else Debug.Log("you dont nave skill");
     }
 
     public void AddGainSkillList(SkillData getSkill)
     {
-        if(gainSkills.Count>0)
-        {
-            for (int i = 0; i < gainSkills.Count; i++)
-            {
-                if (gainSkills[i] != getSkill)
-                {
-                    gainSkills.Add(getSkill);
-                    return;
-                }
-                else
-                {
-                    return;
-                }
-            }
-        }
-        gainSkills.Add(getSkill);   
+
+        gainSkill = getSkill;
+
+        //if(gainSkills.Count>0)
+        //{
+        //    for (int i = 0; i < gainSkills.Count; i++)
+        //    {
+        //        if (gainSkills[i] != getSkill)
+        //        {
+        //            gainSkills.Add(getSkill);
+        //            return;
+        //        }
+        //        else
+        //        {
+        //            return;
+        //        }
+        //    }
+        //}
+        //gainSkills.Add(getSkill);   
 
     }
 

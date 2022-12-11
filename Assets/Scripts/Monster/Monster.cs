@@ -73,7 +73,7 @@ public abstract class Monster : MonoBehaviour
         {
             GameManager.Inst.RemoveMonster(this);
             int RandomCount = UnityEngine.Random.Range(0, 3);
-            //if (RandomCount == 3)
+            //if (RandomCount == 2)
                 Pool.ObjectInstantiate(monsterData.info.randomSkill,transform.position+Vector3.up,Quaternion.identity);
 
             Pool.ObjectDestroy(this.gameObject);
