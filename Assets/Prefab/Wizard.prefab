@@ -291,6 +291,7 @@ GameObject:
   - component: {fileID: 8085656597799184027}
   - component: {fileID: 8085656597799184026}
   - component: {fileID: 8085656597799184025}
+  - component: {fileID: 7117340446221657463}
   m_Layer: 0
   m_Name: Wizard
   m_TagString: Untagged
@@ -402,8 +403,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackStartZone: {fileID: 8739188108198666865}
-  gainSkills:
-  - {fileID: 6209379623563471811, guid: ce22cfb4b3b4ac04eb52aa2a2350d370, type: 3}
   playerSpeed: 5
   runSpeed: 15
   jumpSpeed: 2
@@ -415,6 +414,23 @@ MonoBehaviour:
   playerAttackPower: 10
   castCheck: 0
   instSkill: 0
+--- !u!114 &7117340446221657463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8085656597798920584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a2b64e9a4771cd4081df705b052eeff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info:
+    maxHp: 100
+    damage: 1
+    attackRange: 5
+    curHp: 0
 --- !u!1 &8085656597798920694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1744,7 +1760,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8085656597799188816
 Transform:
   m_ObjectHideFlags: 0
@@ -2744,7 +2760,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8085656597799232280
 Transform:
   m_ObjectHideFlags: 0
@@ -4345,7 +4361,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8739188108198666866}
   m_LocalRotation: {x: -0.099850304, y: -0, z: -0, w: 0.99500245}
-  m_LocalPosition: {x: 0, y: 1.22, z: 0.5189972}
+  m_LocalPosition: {x: 0, y: 1.22, z: 0.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -7,15 +7,23 @@ public class BasicAttack : MonoBehaviour
 {
     [SerializeField] private GameObject destroyEffect = null;
     [SerializeField] private float speed;
-    [SerializeField] private float dmamage;
+    private float dmamage;
 
     Monster targetMoster = null;
     private bool collisonCheck = false;
+    private bool followCheck = true;
     private Vector3 direction = Vector3.zero;
+
+    Vector3 nomalFoward;
+    Vector3 nomalTarget;
+    float distance;
+    double inAngle;
 
     private void Awake()
     {
+        dmamage = GameManager.Inst.GetPlayer.GetPlayerData().info.damage;
         this.gameObject.transform.SetParent(GameManager.Inst.GetSkillManager.BOX.transform);
+
     }
 
     private void OnEnable()
@@ -28,17 +36,27 @@ public class BasicAttack : MonoBehaviour
     {
         targetMoster = null;
         collisonCheck = false;
+        followCheck = true;
         direction = Vector3.zero;
     }
 
     void FixedUpdate()
     {
-        if(targetMoster!=null)
+        if (targetMoster != null&& followCheck)
         {
+            distance = Vector3.Distance(transform.position, targetMoster.transform.position);
+
+            if (inAngle > (105*Mathf.Deg2Rad)/2|| GameManager.Inst.GetPlayer.GetPlayerData().info.attackRange < distance)//라디안/2 왜 인지 모르겠음
+            {
+                followCheck=false;
+                transform.Translate(Vector3.forward * Time.fixedDeltaTime * speed * 8);
+                return;
+            }
+
             direction = targetMoster.transform.position+Vector3.up - transform.position;
             transform.Translate(direction * Time.fixedDeltaTime * speed,Space.World);
 
-            if(Vector3.Distance(transform.position,targetMoster.transform.position)<0.5f)
+            if(distance < 0.5f)
             {
                 StartCoroutine(PlayEffect());
                 targetMoster.TransferDamage(dmamage);
@@ -60,8 +78,9 @@ public class BasicAttack : MonoBehaviour
         float minDis = 0;
 
         Monster monster = null;
-        
-        if(GameManager.Inst.GetPlayer == null)
+
+       
+        if (GameManager.Inst.GetPlayer == null)
         {
             return monster;
         }
@@ -69,7 +88,6 @@ public class BasicAttack : MonoBehaviour
         {
             return monster;
         }
-
 
         minDis = Vector3.Distance(GameManager.Inst.GetPlayer.transform.position, monster.transform.position);
 
@@ -84,11 +102,17 @@ public class BasicAttack : MonoBehaviour
             }
 
             count++;
-        }
 
-        GameManager.Inst.TryGetMonster(index,out monster);
+        }
+        GameManager.Inst.TryGetMonster(index, out monster);
+
+        GetInAngle(monster);
+
+        if (inAngle > (105 * Mathf.Deg2Rad) / 2 ||
+                minDis > GameManager.Inst.GetPlayer.GetPlayerData().info.attackRange) return null;
 
         monster.PlayLockIn();
+
         return monster;
     }
 
@@ -112,13 +136,27 @@ public class BasicAttack : MonoBehaviour
         {
             collisonCheck = true;
             StartCoroutine(PlayEffect());
-
-            if(targetMoster!=null&& (collision.gameObject==targetMoster.gameObject))
-                targetMoster.TransferDamage(dmamage);
+            Monster monster = null;
+            if(collision.gameObject.TryGetComponent<Monster>(out monster))
+                monster.TransferDamage(dmamage);
 
             if (targetMoster != null)
                 targetMoster.PlayLockIn(false);
         }
     }
+
+    private void GetInAngle(Monster targetMonster)
+    {
+        nomalFoward = GameManager.Inst.GetPlayer.transform.forward.normalized;
+        nomalTarget = (targetMonster.transform.position - GameManager.Inst.GetPlayer.transform.position).normalized;
+
+        inAngle = Mathf.Acos(Vector3.Dot(nomalFoward, nomalTarget));
+    }
+
+
+
+
+
+
 
 }

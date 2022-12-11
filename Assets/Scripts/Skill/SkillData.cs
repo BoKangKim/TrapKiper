@@ -11,7 +11,8 @@ public class SkillData : MonoBehaviour
         public GameObject[] addEffect;
         public float playTime;
         public float skillRange;
-        public AudioClip sound;
+        public float damage;
+        public AudioSource sound;
         [HideInInspector] public bool isPlaying;
 
         public bool FindSkill(string name)

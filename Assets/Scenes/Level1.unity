@@ -511,7 +511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skills:
-  - {fileID: 6209379623563471811, guid: ce22cfb4b3b4ac04eb52aa2a2350d370, type: 3}
+  - {fileID: -6892683705152199009, guid: cfee882216422ff4eb5822d9d5ff17e6, type: 3}
 --- !u!1001 &395156146754848299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -519,21 +519,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7117340446221657463, guid: 47e54cb4fb0075742ad7553b8b0452bb, type: 3}
+      propertyPath: info.damage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8085656597798920584, guid: 47e54cb4fb0075742ad7553b8b0452bb, type: 3}
       propertyPath: m_Name
       value: Wizard
-      objectReference: {fileID: 0}
-    - target: {fileID: 8085656597799184025, guid: 47e54cb4fb0075742ad7553b8b0452bb, type: 3}
-      propertyPath: canvars
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8085656597799184027, guid: 47e54cb4fb0075742ad7553b8b0452bb, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8085656597799184028, guid: 47e54cb4fb0075742ad7553b8b0452bb, type: 3}
-      propertyPath: m_Drag
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8085656597799184030, guid: 47e54cb4fb0075742ad7553b8b0452bb, type: 3}
       propertyPath: m_RootOrder
@@ -578,14 +570,6 @@ PrefabInstance:
     - target: {fileID: 8085656597799184030, guid: 47e54cb4fb0075742ad7553b8b0452bb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8739188108198666865, guid: 47e54cb4fb0075742ad7553b8b0452bb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8739188108198666865, guid: 47e54cb4fb0075742ad7553b8b0452bb, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47e54cb4fb0075742ad7553b8b0452bb, type: 3}
@@ -645,8 +629,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6248797537366759568, guid: 8718822f553bf654e973d035061358d0, type: 3}
+      propertyPath: spawnTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6248797537366759568, guid: 8718822f553bf654e973d035061358d0, type: 3}
       propertyPath: monsterAmount
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8718822f553bf654e973d035061358d0, type: 3}

@@ -13,7 +13,7 @@ public enum STATE
     DIE_STATE,
     MAX
 }
-[RequireComponent(typeof(AnimationEventReciver))]
+[RequireComponent(typeof(AnimationEventReciver),typeof(PlayerData))]
 public abstract class BasePlayer : MonoBehaviour
 {
 
@@ -33,9 +33,12 @@ public abstract class BasePlayer : MonoBehaviour
     private GameObject jumpEffect = null;
 
     //Player component
+    [Header("Player component")]
     protected Animator playerAnimator = null;
-    private Transform playerTr      = null;
-    private Rigidbody playerRb      = null;
+    private Transform playerTr        = null;
+    private Rigidbody playerRb        = null;
+    private Collider playerCollider   = null;
+    private PlayerData playerData     = null;
 
     //Player Speed Value
     [Header("Player Stat Value")]
@@ -113,6 +116,8 @@ public abstract class BasePlayer : MonoBehaviour
         playerRb       = GetComponent<Rigidbody>();
         cameraArmTr    = FindObjectOfType<FollowCamera>().transform;
         mainCamera     = FindObjectOfType<FollowCamera>();
+        playerCollider = GetComponent<Collider>();
+        playerData = GetComponent<PlayerData>();
         myEffectBox = Resources.Load<PlayerEffect>("ScriptableObject/" + "PlayerEffectContainer");
         gainSkills = new List<SkillData>();
 
@@ -349,12 +354,11 @@ public abstract class BasePlayer : MonoBehaviour
     IEnumerator JUMP_STATE()
     {
       
-        playerRb.drag = 0;
         playerAnimator.SetBool("isJump", true); 
         playerAnimator.SetBool("isMove", false);
         playerAnimator.SetTrigger("isJumpStart");
         playerAnimator.SetBool("isMove", false);
-
+        playerCollider.material.dynamicFriction = 0;
         if (isRun)
             playerSpeed = JumpRunSpeed;
         else
@@ -383,6 +387,7 @@ public abstract class BasePlayer : MonoBehaviour
         else Debug.Log("you dont nave skill");
 
     }
+
     public void AddGainSkillList(SkillData getSkill)
     {
         if(gainSkills.Count>0)
@@ -413,7 +418,7 @@ public abstract class BasePlayer : MonoBehaviour
             jumpEffect = Pool.ObjectInstantiate(myEffectBox.jumpEffect, transform.position, Quaternion.identity);
             jumpEffect.transform.SetParent(transform);
             collisionCheck = true;
-            playerRb.drag = 10;
+            playerCollider.material.dynamicFriction = 40;
             playerSpeed = stopSpeed;
             playerAnimator.SetTrigger("isJumpEnd");
             playerAnimator.SetBool("isJump", false);
@@ -421,7 +426,13 @@ public abstract class BasePlayer : MonoBehaviour
             Invoke("JumpEnd", 0.5f);
         }
     }
-
     
+    public PlayerData GetPlayerData()
+    {
+        return playerData;
+    }
+
+
+
 }
 
