@@ -102,7 +102,6 @@ public abstract class BasePlayer : MonoBehaviour
     private void Update()
     {
         UpdateImplemented();
-
     }
 
     private void FixedUpdate()
@@ -425,7 +424,7 @@ public abstract class BasePlayer : MonoBehaviour
             jumpEffect = Pool.ObjectInstantiate(myEffectBox.jumpEffect, transform.position, Quaternion.identity);
             jumpEffect.transform.SetParent(transform);
             collisionCheck = true;
-            playerCollider.material.dynamicFriction = 40;
+            playerCollider.material.dynamicFriction = 1;
             playerSpeed = stopSpeed;
             playerAnimator.SetTrigger("isJumpEnd");
             playerAnimator.SetBool("isJump", false);
@@ -438,6 +437,24 @@ public abstract class BasePlayer : MonoBehaviour
     {
         return playerData;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

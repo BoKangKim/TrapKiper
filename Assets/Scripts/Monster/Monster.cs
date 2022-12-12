@@ -43,7 +43,7 @@ public abstract class Monster : MonoBehaviour
     {
         root.Run();
 
-        lockIn.gameObject.transform.LookAt(player.transform.position);
+        lockIn.gameObject.transform.LookAt(Camera.main.transform.position);
     }
 
     protected virtual void Init()
@@ -68,15 +68,54 @@ public abstract class Monster : MonoBehaviour
     {
         monsterData.info.curHp -= damage;
         slider.value = monsterData.info.curHp;
-
         if (monsterData.info.curHp <= 0)
         {
             GameManager.Inst.RemoveMonster(this);
             int RandomCount = UnityEngine.Random.Range(0, 3);
             //if (RandomCount == 2)
-                Pool.ObjectInstantiate(monsterData.info.randomSkill,transform.position+Vector3.up,Quaternion.identity);
+            Pool.ObjectInstantiate(monsterData.info.randomSkill, transform.position + Vector3.up, Quaternion.identity);
 
             Pool.ObjectDestroy(this.gameObject);
+            //yield break;
+        }
+
+        //StartCoroutine(ChangeHp(damage));
+    }
+
+
+    IEnumerator ChangeHp(float damage)
+    {
+        float damageHp = monsterData.info.curHp - damage;
+
+        while (true)
+        {
+            monsterData.info.curHp = Mathf.Lerp(monsterData.info.curHp, damageHp, Time.deltaTime*3);
+            slider.value = monsterData.info.curHp;
+
+            Debug.Log("Çï·Î");
+            if (monsterData.info.curHp <= damageHp+0.1f)
+            {
+                monsterData.info.curHp = damageHp;
+                Debug.Log(monsterData.info.curHp);
+
+                if (monsterData.info.curHp <= 0)
+                {
+                    GameManager.Inst.RemoveMonster(this);
+                    int RandomCount = UnityEngine.Random.Range(0, 3);
+                    //if (RandomCount == 2)
+                    Pool.ObjectInstantiate(monsterData.info.randomSkill, transform.position + Vector3.up, Quaternion.identity);
+
+                    Pool.ObjectDestroy(this.gameObject);
+                    yield break;
+                }
+                else
+                {
+                    yield break;
+                }
+            }
+
+            yield return null;
         }
     }
+
 }

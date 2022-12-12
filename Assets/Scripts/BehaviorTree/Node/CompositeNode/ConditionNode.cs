@@ -11,6 +11,7 @@ namespace BehaviorTree
         public static implicit operator ConditionNode(Func<bool> condition) => new ConditionNode(condition);
         public static implicit operator Func<bool>(ConditionNode condition) => new Func<bool>(condition.condition);
 
+
         public IfActionNode Action(Action action)
             => new IfActionNode(condition, action);
 
