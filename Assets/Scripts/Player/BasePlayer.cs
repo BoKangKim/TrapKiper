@@ -120,6 +120,7 @@ public abstract class BasePlayer : MonoBehaviour
         playerData = GetComponent<PlayerData>();
         myEffectBox = Resources.Load<PlayerEffect>("ScriptableObject/" + "PlayerEffectContainer");
         //gainSkills = new List<SkillData>();
+        GameManager.Inst.GetPlayer.GetPlayerData().info.curHp = GameManager.Inst.GetPlayer.GetPlayerData().info.maxHp;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
@@ -438,23 +439,15 @@ public abstract class BasePlayer : MonoBehaviour
         return playerData;
     }
 
+    public void TransferDamage(float damamge)
+    {
+        GameManager.Inst.GetUiManager.GetPlayerHpBar.value = GameManager.Inst.GetPlayer.GetPlayerData().info.curHp;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        if(GameManager.Inst.GetPlayer.GetPlayerData().info.curHp<=0)
+        {
+            //Destroy(this.gameObject);
+        }
+    }
 
 
 

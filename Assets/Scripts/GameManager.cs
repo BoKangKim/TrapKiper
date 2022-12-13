@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SkillManager skillManager = null;
     [SerializeField] private BasePlayer player = null;
     [SerializeField] private TrapManager tm = null;
+    [SerializeField] private UiManager uiManager = null;
 
     private List<Monster> spawnMonsterList = null;
     private Monster targetMonster = null;
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
     public BasePlayer GetPlayer { get { return player; } private set { } }
     public SkillManager GetSkillManager { get { return skillManager; } private set{} }
     public TrapManager GetTrapManager { get { return tm; } private set { } }
+    public UiManager GetUiManager { get { return uiManager; } private set { } }
 
     private void Awake()
     {

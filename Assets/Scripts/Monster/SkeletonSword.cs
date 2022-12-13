@@ -41,7 +41,11 @@ public class SkeletonSword : Monster
     {
         isAttack = true;
     }
-   
+    private void CallTransferDamage()
+    {
+        Debug.Log("»£√‚");
+        GameManager.Inst.GetPlayer.TransferDamage(monsterData.info.damage);
+    }
 
     private Func<bool> IsArrangeIn
     {

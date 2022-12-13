@@ -46,7 +46,7 @@ public class BasicAttack : MonoBehaviour
         {
             distance = Vector3.Distance(transform.position, targetMoster.transform.position);
 
-            if (inAngle > (105*Mathf.Deg2Rad)/2|| GameManager.Inst.GetPlayer.GetPlayerData().info.attackRange < distance)//라디안/2 왜 인지 모르겠음
+            if (inAngle > (105*Mathf.Deg2Rad)/2|| GameManager.Inst.GetPlayer.GetPlayerData().info.attackRange < distance)
             {
                 followCheck=false;
                 transform.Translate(Vector3.forward * Time.fixedDeltaTime * speed * 8);
@@ -55,6 +55,11 @@ public class BasicAttack : MonoBehaviour
 
             direction = targetMoster.transform.position+Vector3.up - transform.position;
             transform.Translate(direction * Time.fixedDeltaTime * speed,Space.World);
+
+            if(targetMoster==null)
+            {
+                transform.Translate(Vector3.forward * Time.fixedDeltaTime * speed * 8);
+            }
 
             if(distance < 0.5f)
             {

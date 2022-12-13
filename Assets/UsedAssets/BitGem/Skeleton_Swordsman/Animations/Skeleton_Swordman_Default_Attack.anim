@@ -52350,6 +52350,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.8
+    functionName: CallTransferDamage
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 35bc3cc6d629a3d49adec4519f7cf920, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 1.2666667
     functionName: SetIsAttackFalse
     data: 

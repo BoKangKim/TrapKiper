@@ -104,7 +104,7 @@ public class IceRain : ISkill
 
         if (Physics.Raycast(startVec, dirVec, out hitinfo, Mathf.Infinity))
         {
-            targetTr.position = hitinfo.point + (Vector3.up * 0.2f);
+            targetTr.position = hitinfo.point + (Vector3.up * 0.4f);
             targetTr.rotation = Quaternion.LookRotation(hitinfo.normal);
             targetTr.Rotate(-90, 0, 0);
             this.transform.rotation= Quaternion.LookRotation(-hitinfo.normal);

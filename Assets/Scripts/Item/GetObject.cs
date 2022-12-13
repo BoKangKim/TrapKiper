@@ -13,6 +13,8 @@ public class GetObject : MonoBehaviour
 
             Debug.Log(GameManager.Inst.GetSkillManager.GetSkill(random).name);
 
+            GameManager.Inst.GetUiManager.ChangeImage(GameManager.Inst.GetSkillManager.GetSkill(random).name);
+
             GameManager.Inst.GetPlayer.AddGainSkillList(GameManager.Inst.GetSkillManager.GetSkill(random));
 
             Pool.ObjectDestroy(this.gameObject);
