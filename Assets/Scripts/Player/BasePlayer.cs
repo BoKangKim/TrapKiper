@@ -13,6 +13,7 @@ public enum STATE
     DIE_STATE,
     MAX
 }
+
 [RequireComponent(typeof(AnimationEventReciver),typeof(PlayerData))]
 public abstract class BasePlayer : MonoBehaviour
 {
@@ -331,7 +332,7 @@ public abstract class BasePlayer : MonoBehaviour
                 playerAnimator.SetBool("isMove", false);
                 playerAnimator.SetBool("isRun", true);
                 playerAnimator.SetFloat("speed", speed);
-            }
+            } 
             else
             {
                 playerSpeed = Mathf.Lerp(playerSpeed, originSpeed, Time.fixedDeltaTime * 2);
