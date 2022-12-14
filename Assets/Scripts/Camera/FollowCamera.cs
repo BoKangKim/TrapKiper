@@ -18,7 +18,12 @@ public class FollowCamera : MonoBehaviour
 
     private void Awake()
     {
-        playerTr = GameManager.Inst.GetPlayer.gameObject.transform;
+        //playerTr = GameManager.Inst.GetPlayer.gameObject.transform;
+
+        //if(playerTr == null)
+        //{
+        //    playerTr = GameObject.Find("Wizard").transform;
+        //}
     }
 
     private void FixedUpdate()

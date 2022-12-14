@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion // Singleton
     [SerializeField] private SkillManager skillManager = null;
+    //[SerializeField] private BasePlayer player = null;
     [SerializeField] private BasePlayer player = null;
     [SerializeField] private TrapManager tm = null;
     [SerializeField] private UiManager uiManager = null;
