@@ -5,18 +5,16 @@ using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
-    [SerializeField] private Image[] skills = null;
+    [SerializeField] private Image[] skillIndex = null;
+    [SerializeField] private Sprite[] skillSprite = null; 
     [SerializeField] private Transform curSkill = null; 
     [SerializeField] private Slider playerHpBar = null;
-
-    private GameObject curSkillImage = null;
 
     public Slider GetPlayerHpBar { get { return playerHpBar;} private set { } }
 
     public void Awake()
     {
-        instImge();
-
+        
     }
 
     public void Start()
@@ -31,41 +29,88 @@ public class UiManager : MonoBehaviour
     }
 
 
-    private void instImge()
+    public void GetSkill(string skillname)
     {
-        GameObject Image = null;
-        for (int i = 0; i < skills.Length; i++)
-        {
-            Image = Pool.ObjectInstantiate(skills[i].gameObject,Vector3.zero,Quaternion.identity);
-            Image.transform.SetParent(curSkill);
-            Image.transform.localPosition = Vector3.zero;
-            Image.SetActive(false);
-        }
-    }
-
-
-    public void ChangeImage(string skillname)
-    {
-        if (curSkillImage == null)
-            curSkillImage = curSkill.GetChild(0).gameObject;
-
-        curSkillImage.gameObject.SetActive(false);
-
         string[] str = skillname.Split("(");
-        string[] name = null;
 
-        for (int i = 1; i < curSkill.childCount; i++)
+        for (int i = 0; i < skillSprite.Length; i++)
         {
-            name = curSkill.GetChild(i).name.Split("(");
-
-            if (name[0] == str[0]+ "_Image")
+            if(str[0]+"_Image"== skillSprite[i].name)
             {
-                curSkill.GetChild(i).gameObject.SetActive(true);
-                curSkillImage = curSkill.GetChild(i).gameObject;
-                break;
+                for (int j = 0; j < skillIndex.Length; j++)
+                {
+                    if(skillIndex[j].sprite.name=="Empty")
+                    {
+                        skillIndex[j].sprite = skillSprite[i];
+
+                        return;
+                    }
+                    else
+                    {
+                        //키 바꾸는 유아이 
+                    }
+
+
+                }
             }
         }
 
     }
+
+
+    public void ChangeImage(string arrow)
+    {
+        for (int i = 0; i < curSkill.childCount; i++)
+        {
+            if(curSkill.GetChild(i).gameObject.activeSelf==true)
+            {
+                if(arrow=="Right")
+                {
+                    if (i== curSkill.childCount-1)
+                        break;
+                    else
+                    {
+                        curSkill.GetChild(i).gameObject.SetActive(false);
+                        curSkill.GetChild(i + 1).gameObject.SetActive(true);
+                        break;
+                    }
+
+                }
+                else if(arrow == "Left")
+                {
+                    if (i ==0)
+                        break;
+                    else
+                    {
+                        curSkill.GetChild(i).gameObject.SetActive(false);
+                        curSkill.GetChild(i - 1).gameObject.SetActive(true);
+                        break;
+                    }
+
+                }
+               
+            }
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

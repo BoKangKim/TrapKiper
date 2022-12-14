@@ -43,7 +43,23 @@ public class GameManager : MonoBehaviour
     {
         spawnMonsterList = new List<Monster>();
     }
-   
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            GetUiManager.ChangeImage("Left");
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            GetUiManager.ChangeImage("Right");
+        }
+
+    }
+
+
+
+
     public bool NullCheck<T>(ref T obj) where T : Component
     {
         if(obj != null)
