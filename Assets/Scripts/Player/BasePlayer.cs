@@ -28,7 +28,8 @@ public abstract class BasePlayer : MonoBehaviour
     [Header("Attack Info")]
     public Transform attackStartZone        = null;
     //private List<SkillData> gainSkills      = null;
-    private SkillData gainSkill = null;
+    private SkillData[] gainSkill = null;
+    public SkillData[] gainskills { get { return gainSkill; } private set { } }
 
     protected PlayerEffect myEffectBox = null;
     private GameObject indicator = null;
@@ -71,6 +72,8 @@ public abstract class BasePlayer : MonoBehaviour
     private bool collisionCheck = false;
     private bool downCheck = false;
     public bool instSkill = false;
+    public int gainSkillIndex = 0;
+    public int skillIndex = 0;
 
     //axis Value
     private float mouseX = 0;
@@ -120,7 +123,7 @@ public abstract class BasePlayer : MonoBehaviour
         playerCollider = GetComponent<Collider>();
         playerData = GetComponent<PlayerData>();
         myEffectBox = Resources.Load<PlayerEffect>("ScriptableObject/" + "PlayerEffectContainer");
-        //gainSkills = new List<SkillData>();
+        gainSkill = new SkillData[4];
         GameManager.Inst.GetPlayer.GetPlayerData().info.curHp = GameManager.Inst.GetPlayer.GetPlayerData().info.maxHp;
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -191,12 +194,15 @@ public abstract class BasePlayer : MonoBehaviour
             ChageState(STATE.JUMP_STATE);
             Invoke("JumpStart", 0.05f);
         }
-        if(Input.GetKeyDown(KeyCode.X) && jumpCheck == false && isRun == false && instSkill == false && castCheck ==false&& gainSkill!=null)
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            castCheck = true;
-            playerAnimator.SetTrigger("isSkill");
+            for (int i = 0; i < gainSkill.Length; i++)
+            {
+                Debug.Log(gainSkill[i].name+ "   :" + i.ToString());
+               
+            }
         }
-        if(Input.GetKeyDown(KeyCode.I) == true)
+        if (Input.GetKeyDown(KeyCode.I) == true)
         {
             GameManager.Inst.GetTrapManager.StartPreView(0);
         }
@@ -206,6 +212,41 @@ public abstract class BasePlayer : MonoBehaviour
         }
 
     }
+
+    public bool Check(int index)
+    {
+        if (jumpCheck == false && isRun == false && instSkill == false && castCheck == false && gainSkill[index] != null)
+            return true;
+        else
+            return false;
+    }
+
+    public void CallSkill(int skillNum)
+    {
+        castCheck = true;
+
+        switch(skillNum)
+        {
+            case 1:
+                playerAnimator.SetTrigger("isSkill");
+                break;
+
+            case 2:
+                playerAnimator.SetTrigger("isSkill");
+                break;
+
+            case 3:
+                playerAnimator.SetTrigger("isSkill");
+                break;
+
+            case 4:
+                playerAnimator.SetTrigger("isSkill");
+                break;
+        }
+       
+    }
+
+
 
     private IEnumerator DownCheck()
     {
@@ -381,40 +422,38 @@ public abstract class BasePlayer : MonoBehaviour
     public abstract IEnumerator SKILL_STATE();
     #endregion
 
-    //Skill Inst Mesod
-    protected virtual void InstSkill(int index)
+    //Skill Inst Method
+    protected virtual void InstSkill(int skillIndex)
     {
-        if (gainSkill != null)
-            Pool.ObjectInstantiate(gainSkill.gameObject, transform.position, Quaternion.identity);
+        if (gainSkill[skillIndex] != null)
+            Pool.ObjectInstantiate(gainSkill[skillIndex].gameObject, transform.position, Quaternion.identity);
         else Debug.Log("you dont nave skill");
-
-        //if (gainSkills[index] != null)
-        //    Pool.ObjectInstantiate(gainSkills[index].gameObject, transform.position, Quaternion.identity);
-        //else Debug.Log("you dont nave skill");
     }
 
-    public void AddGainSkillList(SkillData getSkill)
+    public void ReplaceSkill(SkillData getSkill,int index)
     {
+        gainSkill[index] = getSkill;
+    }
 
-        gainSkill = getSkill;
-
-        //if(gainSkills.Count>0)
-        //{
-        //    for (int i = 0; i < gainSkills.Count; i++)
-        //    {
-        //        if (gainSkills[i] != getSkill)
-        //        {
-        //            gainSkills.Add(getSkill);
-        //            return;
-        //        }
-        //        else
-        //        {
-        //            return;
-        //        }
-        //    }
-        //}
-        //gainSkills.Add(getSkill);   
-
+    public void AddGainSkill(SkillData getSkill)
+    {
+        for (int i = 0; i < gainSkill.Length; i++)
+        {
+            if (gainSkill[i] == null)
+            {
+                gainSkill[i]=getSkill;
+                return;
+            }
+            else
+            {
+                if(gainSkill[i] == getSkill)
+                {
+                    //스킬 업그레이드
+                    Debug.Log("스킬 업그레이드 합니다");
+                    return;
+                }
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

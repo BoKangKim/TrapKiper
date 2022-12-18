@@ -9,13 +9,14 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Sprite[] skillSprite = null; 
     [SerializeField] private Transform curSkill = null; 
     [SerializeField] private Slider playerHpBar = null;
+    [SerializeField] private GameObject selectBox = null;
+    [SerializeField] private Image getSkillImage = null;
+
+    [HideInInspector] public bool changeKeyCheck = false;
+
+    private Sprite getSkillSprite = null;
 
     public Slider GetPlayerHpBar { get { return playerHpBar;} private set { } }
-
-    public void Awake()
-    {
-        
-    }
 
     public void Start()
     {
@@ -29,88 +30,62 @@ public class UiManager : MonoBehaviour
     }
 
 
-    public void GetSkill(string skillname)
+    public void GetSkillImage(string skillname)
     {
-        string[] str = skillname.Split("(");
-
         for (int i = 0; i < skillSprite.Length; i++)
         {
-            if(str[0]+"_Image"== skillSprite[i].name)
-            {
-                for (int j = 0; j < skillIndex.Length; j++)
-                {
-                    if(skillIndex[j].sprite.name=="Empty")
-                    {
-                        skillIndex[j].sprite = skillSprite[i];
-
-                        return;
-                    }
-                    else
-                    {
-                        //키 바꾸는 유아이 
-                    }
-
-
-                }
-            }
+            if(skillSprite[i].name == skillname + "_Image")
+                getSkillSprite = skillSprite[i];
         }
 
-    }
-
-
-    public void ChangeImage(string arrow)
-    {
-        for (int i = 0; i < curSkill.childCount; i++)
+        for (int i = 0; i < skillIndex.Length; i++)
         {
-            if(curSkill.GetChild(i).gameObject.activeSelf==true)
+            if (skillIndex[i].sprite.name == "Empty")
             {
-                if(arrow=="Right")
+                if (i == skillIndex.Length - 1)
                 {
-                    if (i== curSkill.childCount-1)
-                        break;
-                    else
-                    {
-                        curSkill.GetChild(i).gameObject.SetActive(false);
-                        curSkill.GetChild(i + 1).gameObject.SetActive(true);
-                        break;
-                    }
-
+                    getSkillImage.sprite = getSkillSprite;
+                    changeKeyCheck = true;
+                    selectBox.SetActive(true);
+                    return;
                 }
-                else if(arrow == "Left")
-                {
-                    if (i ==0)
-                        break;
-                    else
-                    {
-                        curSkill.GetChild(i).gameObject.SetActive(false);
-                        curSkill.GetChild(i - 1).gameObject.SetActive(true);
-                        break;
-                    }
+            }
+            else
+                break;
+        }
 
-                }
-               
+        for (int i = 0; i < skillIndex.Length; i++)
+        {
+            if (skillIndex[i].sprite.name == getSkillSprite.name)
+            {
+                //레벨업 유아이
+                Debug.Log("레벨업 유아이 출력");
+                return;
+            }
+            else if (skillIndex[i].sprite.name != getSkillSprite.name && skillIndex[i].sprite.name == "Empty")
+            {
+                getSkillImage.sprite = getSkillSprite;
+                changeKeyCheck = true;
+                selectBox.SetActive(true);
+                return;
+            }
+        }
+    }
+
+    public void ReplaceSkillImage(string skillname, int index)
+    {
+        for (int i = 0; i < skillSprite.Length; i++)
+        {
+            if (skillSprite[i].name== skillname+"_Image")
+            {
+                skillIndex[index].sprite = skillSprite[i];
+                changeKeyCheck = false;
+                selectBox.SetActive(false);
+                return;
             }
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

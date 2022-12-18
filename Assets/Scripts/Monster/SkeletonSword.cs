@@ -43,7 +43,6 @@ public class SkeletonSword : Monster
     }
     private void CallTransferDamage()
     {
-        Debug.Log("»£√‚");
         GameManager.Inst.GetPlayer.TransferDamage(monsterData.info.damage);
     }
 

@@ -15,19 +15,19 @@ public class SkillManager : MonoBehaviour
         box = new GameObject("SkillBox");
     }
 
-    public GameObject GetSkill(string skillName)
-    {
-        for(int i = 0; i < skills.Count; i++)
-        {
-            if(skills[i].info.FindSkill(skillName) == true)
-            {
-                GameObject skill = Instantiate(skills[i].gameObject,transform,false);
-                return skill;
-            }
-        }
+    //public GameObject GetSkill(string skillName)
+    //{
+    //    for(int i = 0; i < skills.Count; i++)
+    //    {
+    //        if(skills[i].info.FindSkill(skillName) == true)
+    //        {
+    //            GameObject skill = Instantiate(skills[i].gameObject,transform,false);
+    //            return skill;
+    //        }
+    //    }
 
-        return null;
-    }
+    //    return null;
+    //}
 
     public int GetSkillCount()
     {
@@ -36,7 +36,9 @@ public class SkillManager : MonoBehaviour
 
     public SkillData GetSkill(int index)
     {
-        if (index > skills.Count - 1) return null;
+        if (index > skills.Count - 1) 
+            return null;
+
         return skills[index];
     }
 

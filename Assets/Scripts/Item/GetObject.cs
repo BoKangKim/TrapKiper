@@ -11,11 +11,13 @@ public class GetObject : MonoBehaviour
         {
             int random = Random.Range(0, GameManager.Inst.GetSkillManager.GetSkillCount());
 
+            GameManager.Inst.GetPlayer.gainSkillIndex = random;
+
             Debug.Log(GameManager.Inst.GetSkillManager.GetSkill(random).name);
 
-            GameManager.Inst.GetUiManager.GetSkill(GameManager.Inst.GetSkillManager.GetSkill(random).name);
+            GameManager.Inst.GetUiManager.GetSkillImage(GameManager.Inst.GetSkillManager.GetSkill(random).name);
 
-            GameManager.Inst.GetPlayer.AddGainSkillList(GameManager.Inst.GetSkillManager.GetSkill(random));
+            GameManager.Inst.GetPlayer.AddGainSkill(GameManager.Inst.GetSkillManager.GetSkill(random));
 
             Pool.ObjectDestroy(this.gameObject);
         }

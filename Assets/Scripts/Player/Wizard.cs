@@ -6,7 +6,8 @@ public class Wizard : BasePlayer
 {
     public override IEnumerator CAST_STATE()
     {
-        InstSkill(0);
+        Debug.Log(skillIndex);
+        InstSkill(skillIndex);
 
         StartCoroutine(ChangeIdle());
         yield return new WaitUntil(() => !castCheck);
