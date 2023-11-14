@@ -17,8 +17,6 @@ public class GetObject : MonoBehaviour
 
             GameManager.Inst.GetUiManager.GetSkillImage(GameManager.Inst.GetSkillManager.GetSkill(random).name);
 
-            GameManager.Inst.GetPlayer.AddGainSkill(GameManager.Inst.GetSkillManager.GetSkill(random));
-
             Pool.ObjectDestroy(this.gameObject);
         }
     }   

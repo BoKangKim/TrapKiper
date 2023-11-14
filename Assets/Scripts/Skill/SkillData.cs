@@ -5,7 +5,7 @@ using UnityEngine;
 public class SkillData : MonoBehaviour
 {
     [System.Serializable]
-    public struct Info
+    public class Info
     {
         public string name;
         public GameObject[] addEffect;

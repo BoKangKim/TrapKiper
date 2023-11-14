@@ -29264,7 +29264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info:
-    name: 
+    name: IceRain
     addEffect:
     - {fileID: 1231247210357622, guid: 609acb70527427e41909704febe28abb, type: 3}
     - {fileID: 1609107109629186, guid: 1acef02b08a049e4892d2976a290e73c, type: 3}

@@ -15,7 +15,7 @@ public abstract class Monster : MonoBehaviour
 
     protected MonsterData monsterData = null;
     protected Animator monsterAni = null;
-    protected Wizard player = null;
+    protected BasePlayer player = null;
     protected NavMeshAgent agent = null;
     protected BehaviorTree.INode root = null;
     protected bool isAttack = false;
@@ -48,7 +48,7 @@ public abstract class Monster : MonoBehaviour
 
     protected virtual void Init()
     {
-        player = FindObjectOfType<Wizard>();
+        player = FindObjectOfType<BasePlayer>();
         monsterAni = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         monsterData = GetComponent<MonsterData>();
